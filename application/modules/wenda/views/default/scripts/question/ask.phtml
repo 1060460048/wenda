@@ -1,0 +1,83 @@
+<?php echo $this->render('partial/_path.phtml') ?>
+<div class="col2-layout mt20">
+    <div class="question-form col-left">
+        <form method="post" action="" id="form_question">
+            <input type="hidden" value="<?php echo isset($this->postData['category_id']) ? $this->postData['category_id'] : '1' ?>" name="category_id" id="category_id"/>
+            <table border="0"><tbody>
+                    <tr class="q_title">
+                        <th nowrap="" class="caption">标 题：</th>
+                        <td class="input">
+                            <input type="text" value="<?php echo $this->postData['subject'] ?>" name="subject" class="title" id="subject" tabindex="1"/>
+                            <div class="tip">
+                                <a target="_blank" href="http://www.oschina.net/question/12_21851">什么样的问题在 oschina 算是一个好问题？</a>
+                            </div></td>
+                    </tr>
+                    <tr class="q_type">
+                        <th class="caption">分 类：</th>
+                        <td class="input">
+                        <?php for ($i=0; $i<count($this->categories); $i++) : ?>
+                            <?php if (isset($this->postData['category_id'])) : ?>
+                                <?php $class = ($this->postData['category_id'] == $this->categories[$i]['id']) ? ' selected' : ''; ?>
+                            <?php else :?>
+                                <?php $class = ($i==0) ? 'selected' : ''; ?>
+                            <?php endif; ?>
+                            <?php echo  '<a class="qa_type ' . $class . '" type=' . $this->categories[$i]['id'] . ' href="#">' . $this->categories[$i]['title'] . '</a>';?>
+                        <?php endfor; ?>
+                        </td>
+                    </tr>
+                    <tr class="q_projects">
+                        <th class="caption">标签：</th>
+                        <td class="input projects">
+                            <input type="text" tabindex="2" value="<?php echo $this->postData['tag1'] ?>" name="tag1" autocomplete="off"/>
+                            <input type="text" tabindex="3" value="<?php echo $this->postData['tag2'] ?>" name="tag2" autocomplete="off"/>
+                            <input type="text" tabindex="4" value="<?php echo $this->postData['tag3'] ?>" name="tag3" autocomplete="off"/>
+                            <input type="text" tabindex="5" value="<?php echo $this->postData['tag4'] ?>" name="tag4" autocomplete="off"/>
+                            <input type="text" tabindex="6" value="<?php echo $this->postData['tag5'] ?>" name="tag5" autocomplete="off"/>
+                            <div class="tip">准确的标签，可让更多专家看到这个问题（最多5个,不能包括空格）</div></td>
+                    </tr>
+                    <tr>
+                        <th class="caption"/>
+                        <td>
+                            <?php echo $this->addJavascript('wenda/qcontent.js'); ?>
+                            <textarea name="content" id="content" class="content"  tabindex="7"><?php echo $this->postData['content'] ?></textarea>
+                        </td>
+                    </tr>
+                    <tr id="tr_form_msg">
+                        <th />
+                        <td><?php echo $this->showErrors($this->errorMsg, 'error') ?></td>
+                    </tr>
+                    <tr class="submit">
+                        <th class="caption"/>
+                        <td class="input">
+                            <?php if ($this->authInfo()->isLogined()) : ?>                            
+                                <input type="submit" tabindex="8" class="SUBMIT" value="发表问题 »" id="btn_submit" />
+                                <input type="checkbox" checked="1" value="1"name="notify_method" id="notify_method"/>
+                                <label for="cb_email">有人回答时邮件通知我
+                                    <span style="color:#0000ff"><?php echo $this->authInfo()->getEmail() ?></span>
+                                    <a target="_blank" href="#">更改提醒邮箱？</a>
+                                </label>
+                            <?php else : ?>
+                                    <input type="submit" tabindex="8" class="SUBMIT" value="发表问题 »" id="btn_submit"  disabled />
+									 必须登录后才能提问，请点击 <?php echo $this->linkTo('这里', 'customer/login') ?> 登录。
+                            <?php endif; ?>
+                        </td>
+                     </tr>
+                </tbody></table>
+        </form>
+    </div>
+    <div class="col-right">
+        <div class="question-tip">
+            <h2>提问和发帖必读</h2>
+            <ol>
+                <li>跟技术无关的问题请不要在此发布</li>
+                <li><a target="_blank" href="#">上传真实头像</a>，可使问题获更好排位</li>
+                <li>模糊或过于简单的标题会被降低排位</li>
+                <li>提问1小时后且有人回答即不允许修改</li>
+                <li>点击工具栏上的<?php echo $this->imageTag('code.gif') ?> 可插入代码</li>
+                <li>图片上传请勿超过200K</li>
+                <li>招聘时请务必阅读 <a target="_blank" href="http://www.oschina.net/question/12_8097">招聘版规</a>，不符即删除</li>
+            </ol>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>

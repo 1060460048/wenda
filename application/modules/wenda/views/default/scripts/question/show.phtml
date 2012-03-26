@@ -1,0 +1,150 @@
+<?php echo $this->render('partial/_path.phtml') ?>
+<div id="question" class="col2-layout">
+	<!-- 问题标题begin -->
+	<div class="title">
+		<div class="asker">
+		    <?php echo $this->face($this->question['user_logo'],$this->question['user_id']) ?>
+		</div>
+		<div class="qtitle">
+            <h1><?php echo $this->escape($this->question['subject'])?></h1>
+			<div class="stat">
+			    <?php echo $this->linkTo($this->question['user_name'],'@userHome?id='.$this->question['user_id'], 'target=_blank')?>
+				发表于 <?php echo date('m-d h:i',$this->question['created_at']) . '&nbsp;&nbsp;'.$this->timing($this->question['created_at'])?>
+                <?php printf('%d回/%d阅', $this->question['answers'],$this->question['pageviews']) ?>
+                <?php if (!empty($this->question['last_answer_at'])) printf('，最后回答: %s分钟前', $this->timing($this->question['last_answer_at'])) ?>
+                (<em id="p_attention_count"><?php echo $this->question['collects']?></em>人收藏
+				<span id="attention_it">，<a href="#" onclick="add_to_favorite(37137,true);return false;">收藏</a></span>|
+				<a href="#">举报</a>)
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<!-- 问题标题end -->
+	<div class="col-left">
+		<!-- 问题主体begin -->
+		<div class="body">
+			<div class="vote">
+				<a id="vote_up" class="vote-up-off" href="#" title="顶：这问题很有用或者很提问清晰明了">顶</a>
+				<span class="vote-count-post"><?php echo $this->question['votes']?></span>
+				<a id="vote_down" class="vote-down-off" href="#" title="踩：这问题不知道在问什么，或者没什么用">踩</a>
+				<div class="clearfix"></div>
+			</div>
+			<div class="content">
+				<p><?php echo $this->question['content'] ?></p>
+				<div class="Tags mt10">
+					<strong>标签：</strong>
+    			    <?php $this->showTags($this->question['keywords']); ?>
+			    </div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<!-- 问题的主体end -->
+		<!-- 回复列表begin -->
+		<div class="answers">
+        	<div class="title">
+				<span>
+					<a class="current" href="#">按评价排序</a> |
+					<a href="#">显示最新答案</a> |
+					<a href="#top">回页面顶部</a>
+				</span>
+				<a name="answers"></a>
+                <h2>共有<em class="count"><?php echo $this->question['answers']?></em>个答案 <a class="answer" href="#answer_form">我要回答»</a></h2>
+			</div>
+			<ul class="list">
+                <?php if (!empty($this->answers)) : ?>
+                <?php foreach ($this->answers as $answer) :?>
+				<li>
+					<div class="user">
+                         <?php echo $this->face($answer['user_logo'],$answer['user_id']) ?>                        
+					</div>
+					<div class="content">
+                        <div>
+                            <div class="time"><?php printf('%s 回答于 %s (%s)', $answer['user_name'], date('m-d h:i',$answer['created_at']) , $this->timing($answer['created_at']) )?></div>
+                            <div class="opts"><a href="#">举报</a></div>
+    						<div class="clearfix"></div>
+                        </div>    
+						<div class="detail"><?php echo $answer['content'] ?></div>
+                        <div id="post_answer_<?php echo $answer['id']?>" class="replies">
+                            <?php echo (isset($answer['replies'])) ? $this->replies($answer['replies']):'' ?>
+                        </div>
+						<div class="votes">
+						    <a href="<?php printf("javascript:reply_to_post('%s')", $this->urlFor("ajax/reply?postid=" . $answer['id']) ) ?>">评论</a><em>(<?php echo isset($answer['replies']) ? count($answer['replies']) : 0 ;?>)</em> |
+					    	<a href="#">引用此答案</a>
+					    </div>
+					</div>
+					<div class="clearfix"></div>
+				</li>
+                <?php endforeach; ?>
+                <?php endif; ?>
+			</ul>
+            <div class="mtb10">
+                <?php if($this->answersPaginator instanceof Zend_Paginator): ?>
+                    <?php echo $this->paginationControl($this->answersPaginator,'Sliding','partial/_paginator.phtml'); ?>
+                <?php endif ?>                  
+            </div>                   
+		</div>
+		<!-- 回复列表end -->
+		<!-- 回复Form begin -->
+		<div class="answer-form">
+			<div class="user">
+                <?php echo $this->face(); ?>
+			</div>
+			<form method="post" action="answer" id="answer_form">
+			    <input type="hidden" value="<?php echo $this->question['id'] ?>" id="question_id" name="question_id" />
+			    <input type="hidden" value="<?php echo $this->question['token']?>" id="token" name="token" />
+				<textarea id="content" name="content" class="content"><?php echo $this->postData['content']?></textarea><br />
+                <?php if ($this->authInfo()->isLogined()) :?>
+                    <input type="submit" id="submit" name="submit" value=" 我要回答 "/>
+                <?php else : ?>
+                    <input type="submit" id="submit" name="submit" value=" 我要回答 " disabled/>
+                                        用户尚未登录，点击<?php echo $this->linkTo('这里','customer/login') ?>登录
+                <?php endif ?>
+                <?php echo $this->showErrors($this->errorMsg) ?>
+				<br/><br/>
+				<a href="#answers">回答案顶部</a> | <a href="#top">回页面顶部</a>
+			</form>
+			<div class="clearfix"></div>
+		</div>
+		<!-- 回复Form end -->
+	</div>
+	<div class="col-right">
+		<!-- 用户的其它问题begin -->
+		<div class="other-qlist">
+			<strong><a class="more" href="http://my.oschina.net/u/190376/discuss">全部(3)...</a><em>张翼鹏*</em>的其他问题</strong>
+			<ul>
+				<li><a title="大家觉得淘宝开源的Webx怎么样！" href="http://www.oschina.net/question/190376_37167">大家觉得淘宝开源的Webx怎么样！</a><span class="date">(1回/173阅,5分钟前)</span></li>
+				<li><a title="有没有类似于&quot;OSCHINA&quot;的, 开源项目? " href="http://www.oschina.net/question/190376_36943">有没有类似于"OSCHINA"的, 开源项目? </a><span class="date">(4回/283阅,4天前)</span></li>
+				<li><a title="oschina 是用什么语言开发的啊?" href="http://www.oschina.net/question/190376_36903">oschina 是用什么语言开发的啊?</a><span class="date">(3回/343阅,7天前)</span></li>
+			</ul>
+		</div>
+		<!-- 用户的其它问题end -->
+        <!-- 类似的问题start -->
+		<div class="other-qlist">
+			<strong>类似的话题</strong>
+			<ul>
+				<li><a title="apache二级域名怎么配置？" href="http://www.oschina.net/question/27309_2777">apache二级域名怎么配置？</a><span class="date">(3回/380阅,2年前)</span></li>
+				<li><a title="apache二级域名怎么配置？" href="http://www.oschina.net/question/27309_2778">apache二级域名怎么配置？</a><span class="date">(1回/116阅,2年前)</span></li>
+				<li><a title="二级域名与虚拟主机" href="http://www.oschina.net/question/27309_2550">二级域名与虚拟主机</a><span class="date">(2回/223阅,2年前)</span></li>
+				<li><a title="请教一个问题，泛域名解析或者说二级域名这种是怎么实现的？" href="http://www.oschina.net/question/104929_25955">请教一个问题，泛域名解析或者说二级域名这种是怎么实现的？</a><span class="date">(2回/101阅,5个月前)</span></li>
+				<li><a title="Nginx二级域名与Tomcat绑定问题" href="http://www.oschina.net/question/140735_21411">Nginx二级域名与Tomcat绑定问题</a><span class="date">(5回/546阅,2个月前)</span></li>
+				<li><a title="apache二级域名怎么配置？" href="http://www.oschina.net/question/27309_2777">apache二级域名怎么配置？</a><span class="date">(3回/380阅,2年前)</span></li>
+				<li><a title="apache二级域名怎么配置？" href="http://www.oschina.net/question/27309_2778">apache二级域名怎么配置？</a><span class="date">(1回/116阅,2年前)</span></li>
+				<li><a title="二级域名与虚拟主机" href="http://www.oschina.net/question/27309_2550">二级域名与虚拟主机</a><span class="date">(2回/223阅,2年前)</span></li>
+				<li><a title="请教一个问题，泛域名解析或者说二级域名这种是怎么实现的？" href="http://www.oschina.net/question/104929_25955">请教一个问题，泛域名解析或者说二级域名这种是怎么实现的？</a><span class="date">(2回/101阅,5个月前)</span></li>
+				<li><a title="Nginx二级域名与Tomcat绑定问题" href="http://www.oschina.net/question/140735_21411">Nginx二级域名与Tomcat绑定问题</a><span class="date">(5回/546阅,2个月前)</span></li>
+				<li><a title="apache二级域名怎么配置？" href="http://www.oschina.net/question/27309_2777">apache二级域名怎么配置？</a><span class="date">(3回/380阅,2年前)</span></li>
+				<li><a title="apache二级域名怎么配置？" href="http://www.oschina.net/question/27309_2778">apache二级域名怎么配置？</a><span class="date">(1回/116阅,2年前)</span></li>
+				<li><a title="二级域名与虚拟主机" href="http://www.oschina.net/question/27309_2550">二级域名与虚拟主机</a><span class="date">(2回/223阅,2年前)</span></li>
+				<li><a title="请教一个问题，泛域名解析或者说二级域名这种是怎么实现的？" href="http://www.oschina.net/question/104929_25955">请教一个问题，泛域名解析或者说二级域名这种是怎么实现的？</a><span class="date">(2回/101阅,5个月前)</span></li>
+				<li><a title="Nginx二级域名与Tomcat绑定问题" href="http://www.oschina.net/question/140735_21411">Nginx二级域名与Tomcat绑定问题</a><span class="date">(5回/546阅,2个月前)</span></li>
+				<li><a title="apache二级域名怎么配置？" href="http://www.oschina.net/question/27309_2777">apache二级域名怎么配置？</a><span class="date">(3回/380阅,2年前)</span></li>
+				<li><a title="apache二级域名怎么配置？" href="http://www.oschina.net/question/27309_2778">apache二级域名怎么配置？</a><span class="date">(1回/116阅,2年前)</span></li>
+				<li><a title="二级域名与虚拟主机" href="http://www.oschina.net/question/27309_2550">二级域名与虚拟主机</a><span class="date">(2回/223阅,2年前)</span></li>
+				<li><a title="请教一个问题，泛域名解析或者说二级域名这种是怎么实现的？" href="http://www.oschina.net/question/104929_25955">请教一个问题，泛域名解析或者说二级域名这种是怎么实现的？</a><span class="date">(2回/101阅,5个月前)</span></li>
+				<li><a title="Nginx二级域名与Tomcat绑定问题" href="http://www.oschina.net/question/140735_21411">Nginx二级域名与Tomcat绑定问题</a><span class="date">(5回/546阅,2个月前)</span></li>
+			</ul>
+		</div>
+        <!--类似的问题-->
+	</div>
+	<div class="clearfix"></div>
+</div>

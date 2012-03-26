@@ -1,0 +1,126 @@
+<?php $this->addJavascript('wenda/getcity.js') ?>
+<div id="reg-page" class="main-form">
+    <form method="POST" action="<?php echo $this->urlFor('customer/registration') ?>" class="fl">
+        <h2>加入<?php echo $this->siteName ?>，已经加入的请点击<?php echo $this->linkTo('这里', 'customer/login') ?>登录</h2>
+        <?php echo $this->showErrors($this->errorMsg) ?>
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr id="tr_email">
+                    <th nowrap="">电子邮箱：</th>
+                    <td>
+                        <input type="text" style="width: 200px;" class="TEXT" value="<?php echo $this->postData['email']?>" id="email" name="email"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <ol id="email-tip">
+                            <li class="red">请填写真实邮箱，用于激活您的帐号；	</li>
+                            <li>包括 Gmail 在内很多邮件服务商会把 <?php echo $this->siteName?> 发送的邮件识别为垃圾邮件；	</li>
+                            <li>如果您使用<span class="red">163邮箱</span>，那么邮件可能在您的订阅邮件列表中</li>
+                            <li>如果您没有收到 <?php echo $this->siteName?> 发送的邮件，请注意查看您邮箱中的垃圾邮件；</li>
+                            <li>请将来自 <?php echo $this->siteName?> 的邮件设置成不是垃圾邮件，以便接受本站邮件；</li>
+                            <li>如果您忘记登录密码，也可以通过此邮箱进行密码重置；</li>
+                        </ol>
+                    </td>
+                </tr>
+                <tr>
+                    <th>姓名：</th>
+                    <td>
+                        <input type="text" style="width: 150px;" class="TEXT" maxlength="20" id="name" name="name" value="<?php echo $this->postData['name']?>"/>
+                        <span id="name_msg">不能超过12个字</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>登录密码：</th>
+                    <td>
+                        <input type="password" style="width: 150px;" class="TEXT" id="password" name="password"/>
+                        <span id="password_msg">至少四位</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>密码确认：</th>
+                    <td>
+                        <input type="password" style="width: 150px;" class="TEXT" id="password2" name="password2"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>性别：</th>
+                    <td>
+                        <input type="radio" id="gender_1" value="boy" name="gender" <?php echo (isset($this->postData['gender']) && 'boy' == $this->postData['gender']) ? 'checked': ''?>/>
+                        <label for="gender_1">男</label>
+                        <input type="radio" id="gender_2" value="girl" name="gender" <?php echo (isset($this->postData['gender']) && 'girl' == $this->postData['gender']) ? 'checked': ''?>/>
+                        <label for="gender_2">女</label><span class="nodisp">请选择性别</span>
+                    </td>
+                </tr>
+                <tr id="tr_area">
+                    <th>居住地区：</th>
+                    <td>
+                        <select id="province" name="province" onchange="showcity(this.value, document.getElementById('city'));" value="广东">
+                            <option value="">--请选择省份--</option>
+                            <option value="北京">北京</option>
+                            <option value="上海">上海</option>
+                            <option value="广东">广东</option>
+                            <option value="江苏">江苏</option>
+                            <option value="浙江">浙江</option>
+                            <option value="重庆">重庆</option>
+                            <option value="安徽">安徽</option>
+                            <option value="福建">福建</option>
+                            <option value="甘肃">甘肃</option>
+                            <option value="广西">广西</option>
+                            <option value="贵州">贵州</option>
+                            <option value="海南">海南</option>
+                            <option value="河北">河北</option>
+                            <option value="黑龙江">黑龙江</option>
+                            <option value="河南">河南</option>
+                            <option value="湖北">湖北</option>
+                            <option value="湖南">湖南</option>
+                            <option value="江西">江西</option>
+                            <option value="吉林">吉林</option>
+                            <option value="辽宁">辽宁</option>
+                            <option value="内蒙古">内蒙古</option>
+                            <option value="宁夏">宁夏</option>
+                            <option value="青海">青海</option>
+                            <option value="山东">山东</option>
+                            <option value="山西">山西</option>
+                            <option value="陕西">陕西</option>
+                            <option value="四川">四川</option>
+                            <option value="天津">天津</option>
+                            <option value="新疆">新疆</option>
+                            <option value="西藏">西藏</option>
+                            <option value="云南">云南</option>
+                            <option value="香港">香港特别行政区</option>
+                            <option value="澳门">澳门特别行政区</option>
+                            <option value="台湾">台湾</option>
+                            <option value="海外">海外</option>
+                        </select>
+                        <select id="city" name="city">
+                        </select>
+                    </td>
+                </tr>  
+                <tr class="buttons">
+                    <th></th>
+                    <td style="padding: 20px 0pt;">
+                        <input type="submit" class="BUTTON SUBMIT" value=" 注册新用户 "/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <div class="tipbox fr" id="register-tip">
+        <h3>为什么要注册？</h3>
+        <ol>
+            <li>发布开源软件、新闻和博客</li>
+            <li>参与开源软件/新闻的讨论和评论</li>
+            <li>和别人分享软件使用心得</li>
+            <li>随时得到软件最新更新消息</li>
+            <li>认识更多开源爱好者</li>
+        </ol>
+        <h3 style="margin-top: 20px;">为什么总提示验证码错误？</h3>
+        <ol>
+            <li>首先请确定浏览器已经启用Cookie</li>
+            <li>实在不行，邮件给我们 ricky.feng AT 163.com</li>
+        </ol>
+    </div>
+    <div class="clearfix"></div>
+</div>

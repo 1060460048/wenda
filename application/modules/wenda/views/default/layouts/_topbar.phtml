@@ -1,0 +1,17 @@
+<div id="topbar">
+    <div id="hlinks-nav">
+        <?php echo $this->linkTo('问答首页', 'homepage') ?>
+    </div>
+    <div id="hlinks-user">
+        <?php if ($this->authInfo()->isLogined()) : ?>
+            <?php echo '您好！' . $this->linkTo($this->authInfo()->getName(), '@userHome?userid=' . $this->authInfo()->getId()) ?>
+                <span class="lsep"> | </span>
+            <?php echo $this->linkTo('退出', 'customer/logout') ?>
+        <?php else : ?>
+            <?php echo $this->linkTo('登录', 'customer/login') ?>
+                    <span class="lsep"> | </span>
+            <?php echo $this->linkTo('注册', 'customer/register') ?>
+        <?php endif; ?>
+    </div>
+    <div class="clearfix"></div>
+</div>

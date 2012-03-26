@@ -1,0 +1,101 @@
+<div class="col2-layout">
+    <div class="col-left">
+        <!-- 问题列表begin -->
+        <div class="title_v">
+            <h3><?php echo $this->catSelected['title'] ?></h3>
+            <ul class="tags">
+                <li <?php echo ('unsolve' == $this->questionTab ) ? 'class="sel"' : '' ?>>
+                    <?php echo $this->linkTo('待解决的问题', '@catalogQuestion?catalog='.$this->selCatId.'&show=unsolve') ?></li>
+                <li <?php echo ('solve' == $this->questionTab ) ? 'class="sel"' : '' ?>>
+                    <?php echo $this->linkTo('已解决的问题', '@catalogQuestion?catalog='.$this->selCatId.'&show=solve') ?></li>
+                <li <?php echo ('zero' == $this->questionTab ) ? 'class="sel"' : '' ?>>
+                    <?php echo $this->linkTo('无回答的问题', '@catalogQuestion?catalog='.$this->selCatId.'&show=zero') ?></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>        
+        <div class="question-list">
+            <div class="mtb10">
+                <?php if($this->questions instanceof Zend_Paginator): ?>
+                    <?php echo $this->paginationControl($this->questions,'Sliding','partial/_paginator.phtml'); ?>
+                <?php endif ?>                
+            </div>
+            <ul>
+                <?php foreach ($this->questions as $question) : ?>
+                    <li class="question">
+                        <?php echo $this->face($question['user_logo'],$question['user_id']); ?>
+                        <div class="qbody">
+                            <h2><?php echo $this->linkTo($this->escape($question['subject']), '@showQuestion?token='.$question['token'], 'target=_blank') ?></h2>
+                            <div class="tags">
+                                <?php $this->showTags($question['keywords']); ?>
+                            </div>
+                            <div class="date">
+                                <?php echo $question['user_name'] . ' 发布于 ' . $this->timing($question['created_at']) .'，最后回答(11分钟前)：' ?><a href="http://www.oschina.net/question/28_37571?sort=time#answers">咖啡杯»</a>
+                            </div>
+                        </div>
+                        <div class="qstat">
+                            <a href="<?php echo $this->urlFor('@showQuestion?token='.$question['token']) ?>">
+                                <ul>
+                                    <li class="answer"><em><?php echo $question['answers'] ?></em>回答</li>
+                                    <li class="vote"><em><?php echo $question['votes'] ?></em>投票</li>
+                                    <li class="view"><em><?php echo $question['pageviews'] ?></em>浏览
+                                    </li>
+                                </ul></a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <!-- 问题列表end -->
+        <div>
+            <a class="fr" href="#">返回列表顶部</a>
+            <div class="mtb10">
+                <?php if($this->questions instanceof Zend_Paginator): ?>
+                    <?php echo $this->paginationControl($this->questions,'Sliding','partial/_paginator.phtml'); ?>
+                <?php endif ?>                  
+            </div>
+        </div>
+    </div>
+    <div class="col-right">
+        <?php echo $this->render('partial/_search.phtml') ?>
+        <!-- 热门标签begin -->
+        <div id='popular-tags' class="mt20">
+            <strong><a href="/question/tags?catalog=1" class='more'>所有标签&raquo;</a>热门标签</strong>
+            <div>
+                <?php foreach($this->hotKeywords as $keyword) :?>
+                    <a href="<?php echo $this->urlFor('question/index?tag='.$keyword['value']) ?>" class='tag project'><?php echo $keyword['word'] . '<em>('. $keyword['scores'].'</em>'?>)</a>
+                <?php endforeach ?>
+            </div>
+        </div>
+        <!-- 热门标签end -->
+        <!-- 活跃会员begin -->
+        <div id='top-users' class="mt20">
+            <strong>活跃会员(TOP 40)</strong>
+            <ul>
+                <li>
+                    <a class="user" href="http://my.oschina.net/javayou" title="红薯" target="_blank"><img src="http://static.oschina.net/uploads/user/0/12_50.jpg" align="absmiddle" alt="红薯" title="红薯" class="SmallPortrait" user="12"/></a>
+                    <p><a href="http://my.oschina.net/javayou" title="红薯" target="_blank">红薯</a></p>
+                </li>
+                <li>
+                    <a class="user" href="http://my.oschina.net/rickyfeng" title="RickyFeng" target="_blank"><img src="http://static.oschina.net/uploads/user/53/106025_50.jpg" align="absmiddle" alt="RickyFeng" title="RickyFeng" class="SmallPortrait" user="106025"/></a>
+                    <p><a href="http://my.oschina.net/rickyfeng" title="RickyFeng" target="_blank">RickyFeng</a></p>
+                </li>
+                <li>
+                    <a class="user" href="http://my.oschina.net/vincentc85" title="曹喜军" target="_blank"><img src="http://static.oschina.net/uploads/user/48/96332_50.jpg" align="absmiddle" alt="曹喜军" title="曹喜军" class="SmallPortrait" user="96332"/></a>
+                    <p><a href="http://my.oschina.net/vincentc85" title="曹喜军" target="_blank">曹喜军</a></p>
+                </li>
+                <li>
+                    <a class="user" href="http://my.oschina.net/javaeye" title="鉴客" target="_blank"><img src="http://static.oschina.net/uploads/user/27/54100_50.jpg" align="absmiddle" alt="鉴客" title="鉴客" class="SmallPortrait" user="54100"/></a>
+                    <p><a href="http://my.oschina.net/javaeye" title="鉴客" target="_blank">鉴客</a></p>
+                </li>
+                <li>
+                    <a class="user" href="http://my.oschina.net/anthonychen" title="宏哥" target="_blank"><img src="http://static.oschina.net/uploads/user/48/96003_50.jpg" align="absmiddle" alt="宏哥" title="宏哥" class="SmallPortrait" user="96003"/></a>
+                    <p><a href="http://my.oschina.net/anthonychen" title="宏哥" target="_blank">宏哥</a></p>
+                </li>
+            </ul>
+        </div>
+        <!-- 活跃会员end -->
+        <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+</div>

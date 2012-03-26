@@ -1,0 +1,46 @@
+<?php echo $this->errorMessages ?>
+<div id="login_page" class="main-form">
+    <form method="POST" action=<?php echo $this->urlFor("customer/authenticate") ?> class="fl">
+        <h2> 登录<?php echo $this->siteName ?>，如果尚未加入的请点击<?php echo $this->linkTo('注册新会员', 'customer/register') ?></h2>
+        <?php echo $this->showErrors($this->errorMsg) ?>
+        <table>
+            <tbody>
+                <tr>
+                    <th nowrap="">邮箱：</th>
+                    <td>
+                        <input type="text" style="width: 200px;" value="" class="TEXT"	id="email" name="email" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>登录密码：</th>
+                    <td>
+                        <input type="password" style="width: 200px;" class="TEXT" id="password" name="password" />
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <input type="checkbox" checked="checked" value="1" id="save-login" name="save-login" />
+						 记住我的登录信息<span style="color: rgb(170, 0, 0);">（请勿在公用电脑或者网吧内使用此项）</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <input type="submit" class="BUTTON SUBMIT" value="现在登录" />
+                        <a href="/home/reset-pwd">忘记登录密码？</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <div id="login-tip" class="tipbox fr">
+        <h3>登录后可以？</h3>
+        <ol>
+            <li>参与开源软件/新闻的讨论和评论</li>
+            <li>和别人分享软件使用心得</li>
+            <li>将你的文章、图书推荐到开源中国</li>
+        </ol>
+    </div>
+    <div class="clearfix"></div>
+</div>
