@@ -1,7 +1,6 @@
 <?php
 class Wenda_Model_Question extends RFLib_Model_Abstract
 {
-    
     /**
      * 取问题的toke和subject资料
      * @param int $id
@@ -61,14 +60,35 @@ class Wenda_Model_Question extends RFLib_Model_Abstract
 
     public function setAnswers($questionId)
     {
+        $auth = RFLib_Core::getService('authentication')->getAuth();
+        if (!$auth->hasIdentity()) {
+            return false;
+        }    
         $row = $this->getTable('Question')->findById($questionId);
         if (!empty($row)) {
+            $date = new Zend_Date();
+            $user = $auth->getStorage()->read();
+            $row->last_answer_user_id = $user['id'];
+            $row->last_answer_at = $date->getTimestamp();
             $row->answers = $row->answers + 1;
-            return $this->_save($row);
+            return $this->getTable('Question')->saveRow($row->toArray(), $row);
         } else {
             return false;
         }
         
+    }
+    
+    public function setPageviews($questionId)
+    {
+        $auth = RFLib_Core::getService('authentication')->getAuth();
+        if (!$auth->hasIdentity()) {
+            return false;
+        }    
+        $row = $this->getTable('Question')->findById($questionId);
+        if (!empty($row)) {
+            $row->pageviews = $row->pageviews + 1;
+            return $this->getTable('Question')->saveRow($row->toArray(), $row);
+        }
     }
     
     /**
@@ -131,20 +151,27 @@ class Wenda_Model_Question extends RFLib_Model_Abstract
         if (!$auth->hasIdentity()) {
             return false;
         }
+
         $user = $auth->getStorage()->read();
         $date = new Zend_Date();
-        if ($data instanceof Wenda_Model_DbTable_QuestionTable) {
-            $data->user_id = $user['id'];
-            $data->updated_at = $date->getTimestamp();
-            $row = clone $data;
-            $data = $data->toArray();
+        
+        if (isset($data['id'])) {
+            $row = $this->getTable('Question')->findById($data['id']);
         } else {
             $row = null;
+        }
+        
+        if (null === $row) {
+            $data['user_id']    = $user['id'];
             $data['created_at'] = $date->getTimestamp();
             $data['expired_at'] = $date->addWeek(1)->getTimestamp();
             $data['ip_address'] = ip2long(Zend_Controller_Front::getInstance()->getRequest()->getClientIp());
+        } else {
+            $data['updated_at'] = $date->getTimestamp();
         }
+        
         $date = null;
+        
         return $this->getTable('Question')->saveRow($data, $row);
     }
 

@@ -1,10 +1,7 @@
 <?php
-require_once 'QuestionTable.php';
-
 class Wenda_Model_DbTable_Question extends RFLib_Model_DbTable_Abstract
 {
     protected $_name = 'Question';
-    protected $_rowClass = 'Wenda_Model_DbTable_QuestionTable';
 
     public function findById($id)
     {
@@ -173,6 +170,7 @@ class Wenda_Model_DbTable_Question extends RFLib_Model_DbTable_Abstract
         $select->from('question as q','*');
         $select->joinLeft('question_content as qc', 'qc.question_id = q.id','*');
         $select->joinleft('user as u','u.id = q.user_id',array('u.name as user_name','u.logo as user_logo'));
+        $select->joinleft('user as u2','u2.id = q.last_answer_user_id', array('u2.name as last_answer_user_name'));
         if (null !== $categoryId) {
             $select->where('q.category_id = ?', intval($categoryId));
         }

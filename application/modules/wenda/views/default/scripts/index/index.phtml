@@ -29,7 +29,8 @@
                                 <?php $this->showTags($question['keywords']); ?>
                             </div>
                             <div class="date">
-                                <?php echo $question['user_name'] . ' 发布于 ' . $this->timing($question['created_at']) .'，最后回答(11分钟前)：' ?><a href="http://www.oschina.net/question/28_37571?sort=time#answers">咖啡杯»</a>
+                                <?php echo $question['user_name'] . ' 发布于 ' . $this->timing($question['created_at'])?>
+                                <?php if ($question['last_answer_at'] > 0) echo '，最后回答('.$this->timing($question['last_answer_at']).')：'.'<a href="http://www.oschina.net/question/28_37571?sort=time#answers">'.$question['last_answer_user_name'].'</a>'?>
                             </div>
                         </div>
                         <div class="qstat">

@@ -47,8 +47,10 @@ class Wenda_QuestionController extends Zend_Controller_Action
         }
         $this->view->answersPaginator = $roots;
         $this->view->answers = RFLib_Core::getModel('Answer')->getAllByIds($arr);
+        RFLib_Core::getModel('Question')->setPageviews($qDetail['id']); 
+        $qDetail['pageviews'] = $qDetail['pageviews'] + 1;
         $this->view->question = $qDetail;
-
+        
         $messages = $this->_flashMessenger->getMessages();
         $this->view->errorMsg = isset($messages[0]) ? $messages[0] : null;
         $this->view->postData = isset($messages[1]) ? $messages[1] : null;
@@ -123,7 +125,6 @@ class Wenda_QuestionController extends Zend_Controller_Action
                 ),
                 'route' => 'showQuestion'
             );
-
             return $redirector->gotoRoute($goto['urlOptions'], $goto['route']);
         }
         $this->_redirect('index');
