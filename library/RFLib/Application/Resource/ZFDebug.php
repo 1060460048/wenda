@@ -23,7 +23,7 @@ class RFLib_Application_Resource_ZFDebug
         $bootstrap->bootstrap('frontController');
         $frontController = $bootstrap->getResource('frontController');
 
-        if (RFLib_Core::getIsDeveloperMode()) {
+        if (RFLib_Core::getIsDeveloperMode() && trim($iniOptions['enable'])) {
             //set ZFDebug options
             $options = array(
                     'plugins' => array(

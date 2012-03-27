@@ -1,5 +1,5 @@
 <?php
-class Wenda_CategoryController extends Zend_Controller_Action
+class Wenda_CategoryController extends RFLib_Controller_Action
 {
     public function menuAction()
     {
