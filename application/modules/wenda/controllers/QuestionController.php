@@ -35,10 +35,12 @@ class Wenda_QuestionController extends Zend_Controller_Action
             $qDetail['pageviews'] = $qDetail['pageviews'] + 1;
         }
         $this->view->question = $qDetail;
-        
+        $this->view->bread = RFlib_Core::getModel('Category')->getParents($qDetail['category_id']);
+
         $messages = $this->_flashMessenger->getMessages();
         $this->view->errorMsg = isset($messages[0]) ? $messages[0] : null;
         $this->view->postData = isset($messages[1]) ? $messages[1] : null;
+
     }
 
     public function askAction()
@@ -66,7 +68,16 @@ class Wenda_QuestionController extends Zend_Controller_Action
                 );
                 return $redirector->gotoRoute($goto['urlOptions']);
             }
+            $categoryId = $postData['category_id'];
+        } else {
+            $default = (isset($this->view->categories[0])) ?  $this->view->categories[0] : null;
+            $categoryId = $request->getParam('fmcatalog',$default);            
         }
+
+        if (null !== $categoryId) {
+            $this->view->bread = RFlib_Core::getModel('Category')->getParents($categoryId);
+        }
+        $this->view->selCatId = $categoryId;
     }
 
     public function askedAction()
@@ -74,7 +85,9 @@ class Wenda_QuestionController extends Zend_Controller_Action
         $request = $this->getRequest();
         $questionId = $request->getParam('id');
         if (isset($questionId)) {
-            $this->view->question = RFLib_Core::getModel('Question')->getShortDataById($questionId);
+            $question = RFLib_Core::getModel('Question')->getShortDataById($questionId);
+            $this->view->question = $question;
+            $this->view->bread = RFlib_Core::getModel('Category')->getParents($question['category_id']);
         }
     }
 

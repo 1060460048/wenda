@@ -21,8 +21,8 @@ class Wenda_Model_DbTable_Question extends RFLib_Model_DbTable_Abstract
     public function getShortDataById($id)
     {
         $select = $this->_db->select();
-        $select->from('question as q', 'token');
-        $select->joinLeft('question_content as qc', 'qc.question_id = q.id','subject');
+        $select->from('question as q', array('q.token','q.category_id'));
+        $select->joinLeft('question_content as qc', 'qc.question_id = q.id','qc.subject');
         $select->where('q.id = ?', intval($id));
 
         return $this->_db->fetchRow($select);

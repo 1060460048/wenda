@@ -1,8 +1,12 @@
-<?php echo $this->render('partial/_path.phtml') ?>
+<div class="col2-layout">
+	<div class="col-left path-info"><?php echo $this->breadcrumb('发布信息')?></div>
+	<div class="col-right"><?php echo $this->render('partial/_search.phtml');?></div>
+	<div class="clearfix"></div>
+</div>
 <div class="col2-layout mt20">
     <div class="question-form col-left">
         <form method="post" action="" id="form_question">
-            <input type="hidden" value="<?php echo isset($this->postData['category_id']) ? $this->postData['category_id'] : '1' ?>" name="category_id" id="category_id"/>
+            <input type="hidden" value="<?php echo isset($this->selCatId) ? $this->selCatId : '1' ?>" name="category_id" id="category_id"/>
             <table border="0"><tbody>
                     <tr class="q_title">
                         <th nowrap="" class="caption">标 题：</th>
@@ -16,8 +20,8 @@
                         <th class="caption">分 类：</th>
                         <td class="input">
                         <?php for ($i=0; $i<count($this->categories); $i++) : ?>
-                            <?php if (isset($this->postData['category_id'])) : ?>
-                                <?php $class = ($this->postData['category_id'] == $this->categories[$i]['id']) ? ' selected' : ''; ?>
+                            <?php if (isset($this->selCatId)) : ?>
+                                <?php $class = ($this->selCatId == $this->categories[$i]['id']) ? ' selected' : ''; ?>
                             <?php else :?>
                                 <?php $class = ($i==0) ? 'selected' : ''; ?>
                             <?php endif; ?>

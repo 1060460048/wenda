@@ -63,7 +63,7 @@ class Wenda_Model_Category extends RFLib_Model_Abstract
         }
         
         $cats = $append ? array($category->toArray()) : array();
-        if (self::ROOT_ID == $category->parent_id) {
+        if (self::ROOT_ID != $category->parent_id) {
             $parent = $this->findParentById($id);
             $cats[] = $parent->toArray();
             $cats = array_merge($cats, $this->getParents($parent->id, false));

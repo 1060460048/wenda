@@ -1,4 +1,8 @@
-<?php echo $this->render('partial/_path.phtml') ?>
+<div class="col2-layout">
+	<div class="col-left path-info"><?php echo $this->breadcrumb($this->question['subject']); ?></div>
+	<div class="col-right"><?php echo $this->render('partial/_search.phtml');?></div>
+	<div class="clearfix"></div>
+</div>
 <div id="question" class="col2-layout">
 	<!-- 问题标题begin -->
 	<div class="title">

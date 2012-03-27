@@ -1,4 +1,8 @@
-<?php echo $this->render('partial/_path.phtml') ?>
+<div class="col2-layout">
+	<div class="col-left path-info"><?php echo $this->breadcrumb('发布信息')?></div>
+	<div class="col-right"><?php echo $this->render('partial/_search.phtml');?></div>
+	<div class="clearfix"></div>
+</div>
 <div class="asked-tip">
     <h1><em>“<?php echo $this->question['subject'] ?>”</em>提交成功！</h1>
     <div class="text">提问和发帖注意事项：

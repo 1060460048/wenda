@@ -108,9 +108,9 @@ abstract class RFLib_Model_Abstract
     {
         if (empty($this->_cacheOptions)) {
             $manager = Zend_Controller_Front::getInstance()
-            ->getParam('bootstrap')
-            ->getPluginResource('cachemanager')
-            ->getCacheManager();
+                        ->getParam('bootstrap')
+                        ->getPluginResource('cachemanager')
+                        ->getCacheManager();
             if ($manager->hasCache(self::CACHE_NAME)) {
                 $options = $manager->getCacheTemplate(self::CACHE_NAME);
                 $this->_cacheOptions = array(

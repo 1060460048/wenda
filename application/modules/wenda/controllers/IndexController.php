@@ -1,8 +1,8 @@
 <?php
-class Wenda_IndexController extends Zend_Controller_Action
+class Wenda_IndexController extends RFLib_Controller_Action
 {
     const PAGE_ROWS = 10;
-
+    
     public function indexAction()
     {
         $categories = RFLib_Core::getModel('Category')->getCached()->getRoot();
@@ -14,21 +14,20 @@ class Wenda_IndexController extends Zend_Controller_Action
         $categoryId = $request->getParam('catalog', $firstCatId);
         $show       = $request->getParam('show', $showTypes[0]);
         $page       = $request->getParam('page', 1);
-        
 
         switch ($show) {
             case 'solve' :
-                $this->view->questions = $qModel->getCached()->solves($categoryId,$page,self::PAGE_ROWS);
+                $this->view->questions = $qModel->solves($categoryId,$page,self::PAGE_ROWS);
                 break;
             case 'zero' :
-                $this->view->questions = $qModel->getCached()->zeros($categoryId,$page,self::PAGE_ROWS);
+                $this->view->questions = $qModel->zeros($categoryId,$page,self::PAGE_ROWS);
                 break;
             case 'unsolve' :
             default :
-                $this->view->questions = $qModel->getCached()->unsolves($categoryId,$page,self::PAGE_ROWS);
+                $this->view->questions = $qModel->unsolves($categoryId,$page,self::PAGE_ROWS);
         }
         $this->view->selCatId    = $categoryId;
         $this->view->questionTab = $show;
-        $this->view->hotKeywords = RFLib_Core::getModel('Keyword')->getCached()->getHots($categoryId);
+        $this->view->hotKeywords = RFLib_Core::getModel('Keyword')->getHots($categoryId);
     }
 }
