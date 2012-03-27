@@ -13,17 +13,17 @@ class Wenda_QuestionController extends Zend_Controller_Action
         $jsPath = $this->view->baseUrl() . '/js';
 
         //add kideditor js
-        $this->view->addJavascript('kindeditor/kindeditor-min.js');
-        $this->view->addJavascript('wenda/qcontent.js');
+        // $this->view->addJavascript('kindeditor/kindeditor-min.js');
+        // $this->view->addJavascript('wenda/qcontent.js');
 
         //add syntax highlighter js
-        $this->view->headLink()->appendStylesheet($jsPath . '/syntax-highlighter/styles/shCore.css');
-        $this->view->headLink()->appendStylesheet($jsPath . '/syntax-highlighter/styles/shThemeDefault.css');
-        $this->view->addJavascript('syntax-highlighter/brush.js');
-        $this->view->headScript()->offsetSetScript(9999,
-            "SyntaxHighlighter.config.clipboardSwf = '". $this->view->baseUrl()."/js/syntax-highlighter/scripts/clipboard.swf';" .
-            " SyntaxHighlighter.all();"
-        );
+        // $this->view->headLink()->appendStylesheet($jsPath . '/syntax-highlighter/styles/shCore.css');
+        // $this->view->headLink()->appendStylesheet($jsPath . '/syntax-highlighter/styles/shThemeDefault.css');
+        // $this->view->addJavascript('syntax-highlighter/brush.js');
+        // $this->view->headScript()->offsetSetScript(9999,
+            // "SyntaxHighlighter.config.clipboardSwf = '". $this->view->baseUrl()."/js/syntax-highlighter/scripts/clipboard.swf';" .
+            // " SyntaxHighlighter.all();"
+        // );
 
         //create flash manager
         $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
@@ -47,8 +47,9 @@ class Wenda_QuestionController extends Zend_Controller_Action
         }
         $this->view->answersPaginator = $roots;
         $this->view->answers = RFLib_Core::getModel('Answer')->getAllByIds($arr);
-        RFLib_Core::getModel('Question')->setPageviews($qDetail['id']); 
-        $qDetail['pageviews'] = $qDetail['pageviews'] + 1;
+        if (RFLib_Core::getModel('Question')->setPageviews($qDetail['id'])) {        
+            $qDetail['pageviews'] = $qDetail['pageviews'] + 1;
+        }
         $this->view->question = $qDetail;
         
         $messages = $this->_flashMessenger->getMessages();

@@ -79,7 +79,7 @@ function post_reply(url) {
 						ajax_post(url, "", function(html) {
 							$('#post_answer_' + parent_id).html(html);
 						});
-					}, 1000);
+					}, 800);
 				}
 			});
 }
