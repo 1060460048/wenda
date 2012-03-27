@@ -7,23 +7,7 @@ class Wenda_QuestionController extends Zend_Controller_Action
 
     public function init()
     {
-        parent::init();
-
         $this->_model = RFLib_Core::getModel('Question');
-        $jsPath = $this->view->baseUrl() . '/js';
-
-        //add kideditor js
-        // $this->view->addJavascript('kindeditor/kindeditor-min.js');
-        // $this->view->addJavascript('wenda/qcontent.js');
-
-        //add syntax highlighter js
-        // $this->view->headLink()->appendStylesheet($jsPath . '/syntax-highlighter/styles/shCore.css');
-        // $this->view->headLink()->appendStylesheet($jsPath . '/syntax-highlighter/styles/shThemeDefault.css');
-        // $this->view->addJavascript('syntax-highlighter/brush.js');
-        // $this->view->headScript()->offsetSetScript(9999,
-            // "SyntaxHighlighter.config.clipboardSwf = '". $this->view->baseUrl()."/js/syntax-highlighter/scripts/clipboard.swf';" .
-            // " SyntaxHighlighter.all();"
-        // );
 
         //create flash manager
         $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');

@@ -12,6 +12,6 @@ class RFLib_Application_Resource_LoaderCache extends Zend_Application_Resource_R
                 include_once $classFileCache;
             }
             Zend_Loader_PluginLoader::setIncludeFileCache($classFileCache);
-        }        
+        }
     }
 }
