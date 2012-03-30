@@ -5,7 +5,7 @@
 * @author Roddy <luolonghao@gmail.com>
 * @website http://www.kindsoft.net/
 * @licence http://www.kindsoft.net/license.php
-* @version 4.0.5 (2012-01-15)
+* @version 4.0.6 (2012-03-18)
 *******************************************************************************/
 (function (window, undefined) {
 	if (window.KindEditor) {
@@ -17,7 +17,7 @@ if (!window.console) {
 if (!console.log) {
 	console.log = function () {};
 }
-var _VERSION = '4.0.5 (2012-01-15)',
+var _VERSION = '4.0.6 (2012-03-18)',
 	_ua = navigator.userAgent.toLowerCase(),
 	_IE = _ua.indexOf('msie') > -1 && _ua.indexOf('opera') == -1,
 	_GECKO = _ua.indexOf('gecko') > -1 && _ua.indexOf('khtml') == -1,
@@ -568,7 +568,11 @@ function _ready(fn) {
 		_bind(document, 'DOMContentLoaded', readyFunc);
 	} else if (document.attachEvent) {
 		_bind(document, 'readystatechange', ieReadyStateFunc);
-		if (document.documentElement.doScroll && window.frameElement === undefined) {
+		var toplevel = false;
+		try {
+			toplevel = window.frameElement == null;
+		} catch(e) {}
+		if (document.documentElement.doScroll && toplevel) {
 			ieReadyFunc();
 		}
 	}
@@ -1320,6 +1324,12 @@ _extend(KNode, {
 			return null;
 		}
 		return this[i || 0];
+	},
+	eq : function(i) {
+		if (this.length < 1) {
+			return null;
+		}
+		return new KNode([this[i]]);
 	},
 	hasClass : function(cls) {
 		if (this.length < 1) {
@@ -3057,7 +3067,7 @@ _extend(KCmd, {
 		this.remove(map);
 		return this.select();
 	},
-	inserthtml : function(val) {
+	inserthtml : function(val, quickMode) {
 		var self = this, range = self.range;
 		if (val === '') {
 			return self;
@@ -3091,7 +3101,7 @@ _extend(KCmd, {
 			range.collapse(false);
 			self.select(false);
 		}
-		if (_IE) {
+		if (_IE && quickMode) {
 			try {
 				pasteHtml(range, val);
 			} catch(e) {
@@ -3290,7 +3300,6 @@ function _drag(options) {
 		if (self.setCapture) {
 			self.setCapture();
 		}
-		e.stop();
 	});
 }
 function KWidget(options) {
@@ -4049,7 +4058,8 @@ _extend(KUploadButton, {
 		self.button = button;
 		self.iframe = K('iframe', div);
 		self.form = K('form', div);
-		self.fileBox = K('.ke-upload-file', div).width(K('.ke-button-common').width());
+		var width = options.width || K('.ke-button-common', div).width();
+		self.fileBox = K('.ke-upload-file', div).width(width);
 		self.options = options;
 	},
 	submit : function() {
@@ -4057,6 +4067,11 @@ _extend(KUploadButton, {
 			iframe = self.iframe;
 		iframe.bind('load', function() {
 			iframe.unbind();
+			var tempForm = document.createElement('form');
+			self.fileBox.before(tempForm);
+			K(tempForm).append(self.fileBox);
+			tempForm.reset();
+			K(tempForm).remove(true);
 			var doc = K.iframeDoc(iframe),
 				pre = doc.getElementsByTagName('pre')[0],
 				str = '', data;
@@ -4065,6 +4080,7 @@ _extend(KUploadButton, {
 			} else {
 				str = doc.body.innerHTML;
 			}
+			iframe[0].src = 'javascript:false';
 			try {
 				data = K.json(str);
 			} catch (e) {
@@ -4075,11 +4091,6 @@ _extend(KUploadButton, {
 			}
 		});
 		self.form[0].submit();
-		var tempForm = document.createElement('form');
-		self.fileBox.before(tempForm);
-		K(tempForm).append(self.fileBox);
-		tempForm.reset();
-		K(tempForm).remove(true);
 		return self;
 	},
 	remove : function() {
@@ -4087,6 +4098,7 @@ _extend(KUploadButton, {
 		if (self.fileBox) {
 			self.fileBox.unbind();
 		}
+		self.iframe.remove();
 		self.div.remove();
 		self.button.show();
 		return self;
@@ -4211,9 +4223,13 @@ _extend(KDialog, KWidget, {
 		self.iframeMask && self.iframeMask.remove();
 		self.closeIcon.unbind();
 		K('input', self.div).unbind();
+		K('button', self.div).unbind();
 		self.footerDiv.unbind();
 		self.bodyDiv.unbind();
 		self.headerDiv.unbind();
+		K('iframe', self.div).each(function() {
+			K(this).remove();
+		});
 		KDialog.parent.remove.call(self);
 		return self;
 	}
@@ -4292,13 +4308,17 @@ function _loadScript(url, fn) {
 		}
 	};
 }
+function _chopQuery(url) {
+	var index = url.indexOf('?');
+	return index > 0 ? url.substr(0, index) : url;
+}
 function _loadStyle(url) {
 	var head = document.getElementsByTagName('head')[0] || (_QUIRKS ? document.body : document.documentElement),
 		link = document.createElement('link'),
-		absoluteUrl = _formatUrl(url, 'absolute');
+		absoluteUrl = _chopQuery(_formatUrl(url, 'absolute'));
 	var links = K('link[rel="stylesheet"]', head);
 	for (var i = 0, len = links.length; i < len; i++) {
-		if (_formatUrl(links[i].href, 'absolute') === absoluteUrl) {
+		if (_chopQuery(_formatUrl(links[i].href, 'absolute')) === absoluteUrl) {
 			return;
 		}
 	}
@@ -4340,6 +4360,9 @@ K.loadStyle = _loadStyle;
 K.ajax = _ajax;
 var _plugins = {};
 function _plugin(name, fn) {
+	if (name === undefined) {
+		return _plugins;
+	}
 	if (!fn) {
 		return _plugins[name];
 	}
@@ -4636,7 +4659,7 @@ function KEditor(options) {
 	}
 	var se = K(self.srcElement || '<textarea/>');
 	self.srcElement = se;
-	self.initContent = _elementVal(se);
+	self.initContent = '';
 	self.plugin = {};
 	self.isCreated = false;
 	self.isLoading = false;
@@ -4777,13 +4800,16 @@ KEditor.prototype = {
 				'overflow' : 'hidden'
 			});
 			K(document.body.parentNode).css('overflow', 'hidden');
+			self._fullscreenExecuted = true;
 		} else {
-			if (self._scrollPos) {
+			if (self._fullscreenExecuted) {
 				K(document.body).css({
 					'height' : '',
 					'overflow' : ''
 				});
 				K(document.body.parentNode).css('overflow', '');
+			}
+			if (self._scrollPos) {
 				window.scrollTo(self._scrollPos.x, self._scrollPos.y);
 			}
 		}
@@ -4870,7 +4896,9 @@ KEditor.prototype = {
 					self.readonly();
 				}
 				self.isCreated = true;
-				self.initContent = self.html();
+				if (self.initContent === '') {
+					self.initContent = self.html();
+				}
 				self.afterCreate();
 				if (self.options.afterCreate) {
 					self.options.afterCreate.call(self);
@@ -5263,6 +5291,7 @@ function _create(expr, options) {
 if (_IE && _V < 7) {
 	_nativeCommand(document, 'BackgroundImageCache', true);
 }
+K.EditorClass = KEditor;
 K.editor = _editor;
 K.create = _create;
 K.plugin = _plugin;
@@ -5277,7 +5306,10 @@ _plugin('core', function(K) {
 			self.options.afterChange.call(self);
 		}
 	});
-	if (self.syncType == 'form') {
+	self.afterCreate(function() {
+		if (self.syncType != 'form') {
+			return;
+		}
 		var el = K(self.srcElement), hasForm = false;
 		while ((el = el.parent())) {
 			if (el.name == 'form') {
@@ -5288,7 +5320,9 @@ _plugin('core', function(K) {
 		if (hasForm) {
 			el.bind('submit', function(e) {
 				self.sync();
-				self.edit.textarea.remove();
+				K(window).bind('unload', function() {
+					self.edit.textarea.remove();
+				});
 			});
 			var resetBtn = K('[type="reset"]', el);
 			resetBtn.click(function() {
@@ -5300,7 +5334,7 @@ _plugin('core', function(K) {
 				resetBtn.unbind();
 			});
 		}
-	}
+	});
 	self.clickToolbar('source', function() {
 		if (self.edit.designMode) {
 			self.toolbar.disableAll(true);
@@ -5571,7 +5605,7 @@ _plugin('core', function(K) {
 					html = html.replace(/\n/g, '<br />$&');
 				}
 			}
-			self.insertHtml(html);
+			self.insertHtml(html, true);
 		}
 		K(doc.body).bind('paste', function(e){
 			if (self.pasteType === 0) {

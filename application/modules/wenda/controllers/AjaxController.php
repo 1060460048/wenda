@@ -17,8 +17,8 @@ class Wenda_AjaxController extends Zend_Controller_Action
         if (!empty($userName)) {        
             $replayForm = <<<EOD
 <div id="ajaxbox">
-    <h2 id="Title">评论“{$userName}”的答案</h2>
-    <div id="Content">
+    <h2 id="title">评论“{$userName}”的答案</h2>
+    <div id="content">
         <div style="display:none" class="poperror-msg" id="s_error_msg"></div>
         <div style="display:none" class="popsuccess-msg" id="s_success_msg"></div>
         <form method="post" action="question/reply" id="frm_q_detail">

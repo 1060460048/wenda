@@ -1,20 +1,3 @@
-KindEditor.ready(function(K) {
-	var editor1 = K.create('textarea[name="content"]',
-			{
-				cssPath : '/js/kindeditor/plugins/code/prettify.css',
-				fileManagerJson : '../php/file_manager_json.php',
-				resizeType : 1,
-				shadowMode : false,
-				allowUpload : true,
-				items : [ 'bold', 'italic', 'underline', 'strikethrough',
-						'removeformat', '|', 'insertorderedlist',
-						'insertunorderedlist', '|', 'textcolor', 'bgcolor',
-						'fontname', 'fontsize', '|', 'link', 'unlink',
-						'emoticons', 'code', 'image', 'flash', 'quote', '|',
-						'selectall', 'source', 'about' ]
-			});
-});
-
 function ajax_post(the_url, the_param, succ_callback) {
 	$.ajax({
 		type : 'POST',
@@ -56,32 +39,29 @@ function post_reply(url) {
 	var form = $('#frm_q_detail').serialize();
 	var parent_id = $('#parent_id').val();
 
-	ajax_post(
-			url,
-			form,
-			function(html) {
-				var json = eval('(' + html + ')');
-				if (json.error > 0) {
-					$('#s_error_msg').hide();
-					$('#s_error_msg').html(json.msg);
-					$('#s_error_msg').show("fast");
-					$('#bt_submit_new_reply').removeAttr('disabled');
-				} else {
-					$('#s_error_msg').hide();
-					$('#frm_q_detail').hide();
-					$('#s_success_msg')
-							.html("评论发表成功，<a href='#' onclick='$.fancybox.close();return false;'>关闭此窗口</a>");
-					$('#s_success_msg').fadeIn();
-					t = setTimeout(function() {
-						clearTimeout(t);
-						$.fancybox.close();
-						var url = json.url;
-						ajax_post(url, "", function(html) {
-							$('#post_answer_' + parent_id).html(html);
-						});
-					}, 800);
-				}
-			});
+	ajax_post(url, form, function(html) {
+            var json = eval('(' + html + ')');
+            if (json.error > 0) {
+                $('#s_error_msg').hide();
+                $('#s_error_msg').html(json.msg);
+                $('#s_error_msg').show("fast");
+                $('#bt_submit_new_reply').removeAttr('disabled');
+            } else {
+                $('#s_error_msg').hide();
+                $('#frm_q_detail').hide();
+                $('#s_success_msg')
+                        .html("评论发表成功，<a href='#' onclick='$.fancybox.close();return false;'>关闭此窗口</a>");
+                $('#s_success_msg').fadeIn();
+                t = setTimeout(function() {
+                    clearTimeout(t);
+                    $.fancybox.close();
+                    var url = json.url;
+                    ajax_post(url, "", function(html) {
+                        $('#post_answer_' + parent_id).html(html);
+                    });
+                }, 800);
+            } }
+    );
 }
 
 function closeit() {
@@ -98,4 +78,18 @@ $(document).ready(function() {
 		$('#category_id').val($(this).attr('type'));
 		return false;
 	});
+    //Rich editor setting
+	var editor = KindEditor.create('textarea[name="content"]',	{
+            resizeType : 1,
+            shadowMode : false,
+            allowImageUpload : true,
+            urlType : 'domain',
+            uploadJson : '/upload/image',            
+            items : [ 'bold', 'italic', 'underline', 'strikethrough','removeformat', '|', 
+                      'insertorderedlist','insertunorderedlist', '|',
+                      'forecolor', 'hilitecolor','fontname', 'fontsize', '|',
+                      'link', 'unlink',	'emoticons', 'code', 'image', 'flash', 'quote', '|',
+                      'selectall', 'source', 'about' ]
+	});
+    
 });

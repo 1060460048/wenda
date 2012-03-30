@@ -38,6 +38,7 @@ define('DS', DIRECTORY_SEPARATOR);
 define('APPLICATION_PATH', WEB_ROOT . DS . 'application');
 define('LIBRARY_PATH', WEB_ROOT . DS . 'library');
 define('VAR_PATH', WEB_ROOT . DS . 'var');
+define('UPLOAD_PATH', WEB_ROOT . DS .'uploads');
 
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, 

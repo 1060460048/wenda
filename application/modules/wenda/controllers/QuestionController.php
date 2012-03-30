@@ -43,7 +43,7 @@ class Wenda_QuestionController extends Zend_Controller_Action
 
     }
 
-    public function askAction()
+    public function createAction()
     {
         $this->view->categories = RFLib_Core::getModel('Category')->getCached()->getRoot();
         

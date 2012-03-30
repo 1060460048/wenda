@@ -24,7 +24,7 @@
                     <li class="question">
                         <?php echo $this->face($question['user_logo'],$question['user_id']); ?>
                         <div class="qbody">
-                            <h2><?php echo $this->linkTo($this->substr($this->escape($question['subject']),50), '@showQuestion?token='.$question['token'], 'target=_blank') ?></h2>
+                            <h2><?php echo $this->linkTo($this->escape($question['subject']), '@showQuestion?token='.$question['token'], 'target=_blank') ?></h2>
                             <div class="tags">
                                 <?php $this->showTags($question['keywords']); ?>
                             </div>

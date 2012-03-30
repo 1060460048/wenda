@@ -6,7 +6,7 @@
     	</li>
 	<?php endforeach; ?>
     <li class="<?php echo (isset($this->selCatId) ? 'put' : 'put sel')?>">
-        <?php echo $this->linkTo('我要提问', 'question/ask?fmcatalog='.$this->selCatId) ?>
+        <?php echo $this->linkTo('我要提问', 'question/create?fmcatalog='.$this->selCatId) ?>
 	</li>
 </ul>
 <?php endif; ?>

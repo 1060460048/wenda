@@ -12,7 +12,7 @@ class Wenda_View_Helper_Face extends Zend_View_Helper_HtmlElement
                 $src = 'portrait.gif';
             }
         }
-        $url = $this->view->baseUrl() . '/upload/user/' . $src;
+        $url = $this->view->baseUrl() . '/uploads/user/' . $src;
         $attribs = empty($attribs) ? 'class=user target=_blank' : $attribs;
 
         if (null === $userId) {

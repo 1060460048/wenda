@@ -20,7 +20,7 @@ class Wenda_Form_Question_Base extends RFLib_Form_Abstract
         $this->addElement('text','subject',array(
             'filters'       => array('StringTrim'),
             'validators'    => array(
-                array('StringLength',true,array(10,250)),
+                array('StringLength',true,array(8,50)),
             ),
             'required'      => true,
             'label'         => '标题'

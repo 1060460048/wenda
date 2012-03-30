@@ -18,18 +18,16 @@ a:hover {color:#00A;}
 .user img {border:1px solid #ccc;padding: 2px;background:#fff;}
 a.user:hover img{border:1px solid #40AA53;}
 .nodisplay{display:none;}
-
-.error ul li {height:18px; line-height:18px; color:#A00; margin:10px 0;background:url('../images/warning.gif') no-repeat left center; padding-left:24px;}
+.error ul li {color:#A00; margin:10px 0;background:url('../images/warning.gif') no-repeat left center; padding-left:24px;}
 .error-msg, .poperror-msg {border:1px dashed red; padding:10px 5px 10px 10px; color:red; margin:10px 0 10px 0; background-color:#fee;}
-.error-msg ul li {height:22px;line-height:22px;}
+.error ul li , .error-msg ul li {line-height:18px; }
 .poperror-msg {margin:0 0 10px 0;}
 .popsuccess-msg {margin:0 0 10px 0;font-size:12pt;	color:#40AA53;	padding:50px 0;	text-align:center;font-wight:bold;}
 
-
 /* popup form*/
 #ajaxbox {text-align:left;}
-#ajaxbox #Title {padding:5px 0 5px 10px;background:#40AA53;color:#fff;font-size: 10pt; font-weight:bold;margin-bottom:10px;}
-#ajaxbox #Title a {color:#ff0;margin:0 3px;}
+#ajaxbox #title {padding:5px 0 5px 10px;background:#40AA53;color:#fff;font-size: 10pt; font-weight:bold;margin-bottom:10px;}
+#ajaxbox #title a {color:#ff0;margin:0 3px;}
 #ajaxbox form {}
 #ajaxbox form div {margin-bottom:5px;}
 #ajaxbox form .SUBMIT {font-weight:bold;}
@@ -83,7 +81,7 @@ a.user:hover img{border:1px solid #40AA53;}
 .question-list ul li.question a.user {float:left; width:50px;}
 .question-list ul li.question a.user img {width:32px; height:32px;}
 .question-list ul li.question .qbody {float:left;width:500px;}
-.question-list ul li.question h2 {font-size:10.5pt;color:#666;}
+.question-list ul li.question h2 {font-size:14px;color:#666; line-height:16px;}
 .question-list ul li.question h2 a {text-decoration:none;}
 .question-list ul li.question h2 a.highlight {color:#A00;}
 .question-list ul li.top h2 {color:#A00;}
@@ -117,8 +115,9 @@ a.user:hover img{border:1px solid #40AA53;}
 #question .title {border-bottom:1px solid #1e7fdd;padding-bottom:2px;}
 #question .title .asker {float:left; width:60px;}
 #question .title .asker img {width:42px; height:42px; margin:0 0 0 2px;}
-#question .title .qtitle {float:left; height:42px;}
-#question .title .qtitle h1 {font-size:14pt;padding-top:2px;}
+#question .title .qtitle {float:left;width:630px;}
+
+#question .title .qtitle h1 {font-size:16px;padding-top:2px; line-height:18px;}
 #question .title .qtitle h1 a {color:#000;text-decoration:none;outline:0;}
 #question .title .qtitle .stat {font-size:9pt;color:#666;margin:10px 0 0 0;}
 #question .title .qtitle .stat a {text-decoration:none;margin:0 2px;}
