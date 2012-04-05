@@ -27,6 +27,19 @@ class Wenda_Model_Question extends RFLib_Model_Abstract
         }
     }
     
+	/**
+	* 取用户最近的发表的问题
+	*/
+	public function getByUserId($userId, $ignore=null, $limit=20)
+	{
+		return $this->getTable('Question')->getByUserId($userId, $ignore, $limit);
+	}
+	
+    public function getByKeywords($keywords,$ignore=null,$limit=10)
+    {
+        return $this->getTable('Question')->getByKeywords($keywords,$ignore,$limit);
+    }
+    
     /**
      * Get unsolved question data
      * @param int $categoryId
@@ -75,9 +88,14 @@ class Wenda_Model_Question extends RFLib_Model_Abstract
         } else {
             return false;
         }
-        
     }
     
+    /*
+    * Set pageviews of question when user click this question
+    * 
+    * @param int $questionId
+    * @return boolean
+    */
     public function setPageviews($questionId)
     {
         $auth = RFLib_Core::getService('authentication')->getAuth();
@@ -94,7 +112,7 @@ class Wenda_Model_Question extends RFLib_Model_Abstract
     /**
      * Create quesiton data
      * @param array $data
-     * @return int | boolean;
+     * @return boolean;
      */
     public function create($data)
     {
@@ -116,7 +134,7 @@ class Wenda_Model_Question extends RFLib_Model_Abstract
             RFLib_Core::getModel('Keyword')->create($data['category_id'],$keywords);
             $data['question_id'] = $questionId;
             $data['keywords'] = implode(' ', $keywords);
-            if ($this->_saveContent($data)) {
+             if ($this->_saveContent($data)) {
                 return $questionId;
             }
         }

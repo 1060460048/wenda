@@ -12,10 +12,9 @@ class RFLib_Controller_Plugin_Action extends Zend_Controller_Plugin_Abstract
 {
     protected $_stack;
 
-    public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request) 
+    public function routeShutdown(Zend_Controller_Request_Abstract $request) 
     {
         $stack = $this->getStack();
-        
         // category menu
         $categoryRequest = new Zend_Controller_Request_Simple();
         $categoryRequest->setModuleName('wenda')
@@ -29,7 +28,7 @@ class RFLib_Controller_Plugin_Action extends Zend_Controller_Plugin_Abstract
 
     public function getStack()
     {
-        if (null === $this->_stack) {
+        if (null === $this->_stack) {        
             $front = Zend_Controller_Front::getInstance();
             if (!$front->hasPlugin('Zend_Controller_Plugin_ActionStack')) {
                 $stack = new Zend_Controller_Plugin_ActionStack();

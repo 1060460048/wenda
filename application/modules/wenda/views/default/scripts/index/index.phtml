@@ -71,28 +71,14 @@
         <!-- 热门标签end -->
         <!-- 活跃会员begin -->
         <div id='top-users' class="mt20">
-            <strong>活跃会员(TOP 40)</strong>
+            <strong>活跃会员(TOP <?php echo count($this->topUsers)?>)</strong>
             <ul>
+                <?php foreach($this->topUsers as $user) :?>
                 <li>
-                    <a class="user" href="http://my.oschina.net/javayou" title="红薯" target="_blank"><img src="http://static.oschina.net/uploads/user/0/12_50.jpg" align="absmiddle" alt="红薯" title="红薯" class="SmallPortrait" user="12"/></a>
-                    <p><a href="http://my.oschina.net/javayou" title="红薯" target="_blank">红薯</a></p>
+                    <?php echo $this->face($user['user_logo'],$user['user_id']) ?>
+                    <p><?php echo $this->linkTo($user['user_name'],'@userHome?id='.$user['user_id']) ?></p>
                 </li>
-                <li>
-                    <a class="user" href="http://my.oschina.net/rickyfeng" title="RickyFeng" target="_blank"><img src="http://static.oschina.net/uploads/user/53/106025_50.jpg" align="absmiddle" alt="RickyFeng" title="RickyFeng" class="SmallPortrait" user="106025"/></a>
-                    <p><a href="http://my.oschina.net/rickyfeng" title="RickyFeng" target="_blank">RickyFeng</a></p>
-                </li>
-                <li>
-                    <a class="user" href="http://my.oschina.net/vincentc85" title="曹喜军" target="_blank"><img src="http://static.oschina.net/uploads/user/48/96332_50.jpg" align="absmiddle" alt="曹喜军" title="曹喜军" class="SmallPortrait" user="96332"/></a>
-                    <p><a href="http://my.oschina.net/vincentc85" title="曹喜军" target="_blank">曹喜军</a></p>
-                </li>
-                <li>
-                    <a class="user" href="http://my.oschina.net/javaeye" title="鉴客" target="_blank"><img src="http://static.oschina.net/uploads/user/27/54100_50.jpg" align="absmiddle" alt="鉴客" title="鉴客" class="SmallPortrait" user="54100"/></a>
-                    <p><a href="http://my.oschina.net/javaeye" title="鉴客" target="_blank">鉴客</a></p>
-                </li>
-                <li>
-                    <a class="user" href="http://my.oschina.net/anthonychen" title="宏哥" target="_blank"><img src="http://static.oschina.net/uploads/user/48/96003_50.jpg" align="absmiddle" alt="宏哥" title="宏哥" class="SmallPortrait" user="96003"/></a>
-                    <p><a href="http://my.oschina.net/anthonychen" title="宏哥" target="_blank">宏哥</a></p>
-                </li>
+                <?php endforeach;?>
             </ul>
         </div>
         <!-- 活跃会员end -->

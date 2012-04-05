@@ -1,7 +1,7 @@
 ﻿@import "reset.css";
 
 /*全局*/
-body{font-size:12px; text-align:left; font-family:font-family,Verdana,sans-serif,宋体; background:#FFF;}
+body{font-size:12px; text-align:left; font-family:font-family:Verdana,sans-serif,宋体; background:#FFF;}
 a {color:#4466BB;text-decoration:none;}
 a:hover {color:#00A;}
 .fr{float:right;}
@@ -41,7 +41,7 @@ a.user:hover img{border:1px solid #40AA53;}
 
 /*最顶导航栏*/
 #custom-header{background-color:#eee;height:24px;margin-bottom:-24px;min-width:960px;}
-#topbar{padding:0px 10px;height:24px;line-height:24px;}
+#topbar{height:24px;line-height:24px;}
 #hlinks-user{float:right;}
 #hlinks-nav{float:left;}
 

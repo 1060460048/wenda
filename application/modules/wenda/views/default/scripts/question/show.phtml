@@ -1,3 +1,4 @@
+<?php $this->addJavascript('fancybox/jquery.fancybox-1.3.4.pack.js','first'); ?>
 <div class="col2-layout">
 	<div class="col-left path-info"><?php echo $this->breadcrumb($this->substr($this->question['subject'],30)); ?></div>
 	<div class="col-right"><?php echo $this->render('partial/_search.phtml');?></div>
@@ -114,11 +115,15 @@
 	<div class="col-right">
 		<!-- 用户的其它问题begin -->
 		<div class="other-qlist">
-			<strong><a class="more" href="http://my.oschina.net/u/190376/discuss">全部(3)...</a><em>张翼鹏*</em>的其他问题</strong>
+			<strong>
+                <?php echo $this->linkTo('全部...','@userHome?id='.$this->question['user_id'],'class=more') ?><em><?php echo $this->question['user_name']?>*</em>的其他问题</strong>
 			<ul>
-				<li><a title="大家觉得淘宝开源的Webx怎么样！" href="http://www.oschina.net/question/190376_37167">大家觉得淘宝开源的Webx怎么样！</a><span class="date">(1回/173阅,5分钟前)</span></li>
-				<li><a title="有没有类似于&quot;OSCHINA&quot;的, 开源项目? " href="http://www.oschina.net/question/190376_36943">有没有类似于"OSCHINA"的, 开源项目? </a><span class="date">(4回/283阅,4天前)</span></li>
-				<li><a title="oschina 是用什么语言开发的啊?" href="http://www.oschina.net/question/190376_36903">oschina 是用什么语言开发的啊?</a><span class="date">(3回/343阅,7天前)</span></li>
+				<?php foreach($this->askedQuestions as $question) :?>
+                    <li>
+                        <?php echo $this->linkTo($this->escape($question['subject']), '@showQuestion?token='.$question['token'], 'target=_blank') ?>
+                        <span class="date"><?php printf('(%d回/%d阅,%s)',$question['answers'],$question['pageviews'],$this->timing($question['created_at']))?></span>
+                    </li>
+                <?php endforeach ?>
 			</ul>
 		</div>
 		<!-- 用户的其它问题end -->
@@ -126,26 +131,12 @@
 		<div class="other-qlist">
 			<strong>类似的话题</strong>
 			<ul>
-				<li><a title="apache二级域名怎么配置？" href="http://www.oschina.net/question/27309_2777">apache二级域名怎么配置？</a><span class="date">(3回/380阅,2年前)</span></li>
-				<li><a title="apache二级域名怎么配置？" href="http://www.oschina.net/question/27309_2778">apache二级域名怎么配置？</a><span class="date">(1回/116阅,2年前)</span></li>
-				<li><a title="二级域名与虚拟主机" href="http://www.oschina.net/question/27309_2550">二级域名与虚拟主机</a><span class="date">(2回/223阅,2年前)</span></li>
-				<li><a title="请教一个问题，泛域名解析或者说二级域名这种是怎么实现的？" href="http://www.oschina.net/question/104929_25955">请教一个问题，泛域名解析或者说二级域名这种是怎么实现的？</a><span class="date">(2回/101阅,5个月前)</span></li>
-				<li><a title="Nginx二级域名与Tomcat绑定问题" href="http://www.oschina.net/question/140735_21411">Nginx二级域名与Tomcat绑定问题</a><span class="date">(5回/546阅,2个月前)</span></li>
-				<li><a title="apache二级域名怎么配置？" href="http://www.oschina.net/question/27309_2777">apache二级域名怎么配置？</a><span class="date">(3回/380阅,2年前)</span></li>
-				<li><a title="apache二级域名怎么配置？" href="http://www.oschina.net/question/27309_2778">apache二级域名怎么配置？</a><span class="date">(1回/116阅,2年前)</span></li>
-				<li><a title="二级域名与虚拟主机" href="http://www.oschina.net/question/27309_2550">二级域名与虚拟主机</a><span class="date">(2回/223阅,2年前)</span></li>
-				<li><a title="请教一个问题，泛域名解析或者说二级域名这种是怎么实现的？" href="http://www.oschina.net/question/104929_25955">请教一个问题，泛域名解析或者说二级域名这种是怎么实现的？</a><span class="date">(2回/101阅,5个月前)</span></li>
-				<li><a title="Nginx二级域名与Tomcat绑定问题" href="http://www.oschina.net/question/140735_21411">Nginx二级域名与Tomcat绑定问题</a><span class="date">(5回/546阅,2个月前)</span></li>
-				<li><a title="apache二级域名怎么配置？" href="http://www.oschina.net/question/27309_2777">apache二级域名怎么配置？</a><span class="date">(3回/380阅,2年前)</span></li>
-				<li><a title="apache二级域名怎么配置？" href="http://www.oschina.net/question/27309_2778">apache二级域名怎么配置？</a><span class="date">(1回/116阅,2年前)</span></li>
-				<li><a title="二级域名与虚拟主机" href="http://www.oschina.net/question/27309_2550">二级域名与虚拟主机</a><span class="date">(2回/223阅,2年前)</span></li>
-				<li><a title="请教一个问题，泛域名解析或者说二级域名这种是怎么实现的？" href="http://www.oschina.net/question/104929_25955">请教一个问题，泛域名解析或者说二级域名这种是怎么实现的？</a><span class="date">(2回/101阅,5个月前)</span></li>
-				<li><a title="Nginx二级域名与Tomcat绑定问题" href="http://www.oschina.net/question/140735_21411">Nginx二级域名与Tomcat绑定问题</a><span class="date">(5回/546阅,2个月前)</span></li>
-				<li><a title="apache二级域名怎么配置？" href="http://www.oschina.net/question/27309_2777">apache二级域名怎么配置？</a><span class="date">(3回/380阅,2年前)</span></li>
-				<li><a title="apache二级域名怎么配置？" href="http://www.oschina.net/question/27309_2778">apache二级域名怎么配置？</a><span class="date">(1回/116阅,2年前)</span></li>
-				<li><a title="二级域名与虚拟主机" href="http://www.oschina.net/question/27309_2550">二级域名与虚拟主机</a><span class="date">(2回/223阅,2年前)</span></li>
-				<li><a title="请教一个问题，泛域名解析或者说二级域名这种是怎么实现的？" href="http://www.oschina.net/question/104929_25955">请教一个问题，泛域名解析或者说二级域名这种是怎么实现的？</a><span class="date">(2回/101阅,5个月前)</span></li>
-				<li><a title="Nginx二级域名与Tomcat绑定问题" href="http://www.oschina.net/question/140735_21411">Nginx二级域名与Tomcat绑定问题</a><span class="date">(5回/546阅,2个月前)</span></li>
+                <?php foreach($this->otherQuestions as $question) : ?>
+                    <li>
+                        <?php echo $this->linkTo($this->escape($question['subject']), '@showQuestion?token='.$question['token'], 'target=_blank') ?>
+                        <span class="date"><?php printf('(%d回/%d阅,%s)',$question['answers'],$question['pageviews'],$this->timing($question['created_at']))?></span>
+                    </li>
+                <?php endforeach; ?>
 			</ul>
 		</div>
         <!--类似的问题-->

@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `qq` varchar(20) NOT NULL DEFAULT '',
   `msn` varchar(50) NOT NULL DEFAULT '',
   `introduce` text NOT NULL,
-  `logo` varchar(250) NOT NULL DEFAULT '',
+  `logo` varchar(250) NOT NULL DEFAULT '',  
   `created_at` int(11) NOT NULL DEFAULT '0',
   `updated_at` int(11) NOT NULL DEFAULT '0',
   `status` enum('A','D') NOT NULL DEFAULT 'A',
@@ -177,3 +177,4 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `email_idx` (`email`),
   KEY `group_id_idx` (`group_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+

@@ -35,6 +35,8 @@ class Wenda_QuestionController extends Zend_Controller_Action
             $qDetail['pageviews'] = $qDetail['pageviews'] + 1;
         }
         $this->view->question = $qDetail;
+		$this->view->askedQuestions = RFLib_Core::getModel('Question')->getCached($qDetail['user_id'] . $qDetail['token'])->getByUserId($qDetail['user_id'], $qDetail['token'],5);
+        $this->view->otherQuestions = RFLib_Core::getModel('Question')->getCached(md5($qDetail['keywords']))->getByKeywords($qDetail['keywords'],$qDetail['token'],20);
         $this->view->bread = RFlib_Core::getModel('Category')->getParents($qDetail['category_id']);
 
         $messages = $this->_flashMessenger->getMessages();
@@ -45,7 +47,7 @@ class Wenda_QuestionController extends Zend_Controller_Action
 
     public function createAction()
     {
-        $this->view->categories = RFLib_Core::getModel('Category')->getCached()->getRoot();
+        $this->view->categories = RFLib_Core::getModel('Category')->getCached('rootcategory')->getRoot();
         
         $request = $this->getRequest();
         if ($request->isPost()) {

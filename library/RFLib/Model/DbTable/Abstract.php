@@ -3,12 +3,12 @@
 abstract class RFLib_Model_DbTable_Abstract extends Zend_Db_Table_Abstract
 {
 
-    public function init()
-    {
-        // fix some database can't show Chinese char
+    // public function init()
+    // {
+        // // fix some database can't show Chinese char
         // $dbConfig = $this->_db->getConfig();
         // $this->_db->query("SET NAMES '" . $dbConfig['charset'] . "'");
-    }
+    // }
 
     /**
      * Save a row to the database
