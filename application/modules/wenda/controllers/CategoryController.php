@@ -22,6 +22,7 @@ class Wenda_CategoryController extends Zend_Controller_Action
         }
         $this->view->selCatId = $selCatId;
         $this->view->categories = $categories;
-        $this->_helper->viewRenderer->setResponseSegment($this->_getParam('responseSegment'));        
+        $this->_helper->viewRenderer->setResponseSegment($this->_getParam('responseSegment')); 
+		Zend_Debug::dump('sdifj');
     }
 }
