@@ -24,7 +24,6 @@ class RFLib_Controller_Plugin_Richeditor extends Zend_Controller_Plugin_Abstract
         
         //add kideditor js
         $view->addJavascript('kindeditor/kindeditor-min.js');
-        $view->addJavascript('wenda/qcontent.js');
         
         //add syntax highlighter js
         $jsPath = $view->baseUrl() . '/js';        

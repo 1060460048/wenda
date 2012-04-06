@@ -11,7 +11,58 @@ class Wenda_Model_DbTable_Question extends RFLib_Model_DbTable_Abstract
         return $this->fetchRow($select);
     }
     
+    public function getTopUsers($categoryId,$limit)
+    {
+        $limit = intval($limit);
+        $categoryId = intval($categoryId);
+        
+        $select = $this->_db->select();
+        $select->from('question as q',array('q.user_id','created_at'=>'max(q.created_at)'));
+        $select->joinLeft('user as u','u.id = q.user_id', array('name as user_name','logo as user_logo'));
+        $select->where('q.category_id = ?',$categoryId);
+        $select->group('q.user_id');
+        $select->order('created_at DESC');
+        $select->limit($limit);
+        return $this->_db->fetchAll($select);
+    }    
     
+    public function getByKeywords($keywords,$ignore,$limit)
+    {
+        $words = '';
+        if (is_array($keywords)){
+            $words = implode(' ',$keywords);
+        }
+        if (is_string($keywords)){
+            $words = trim($keywords);
+        }
+        
+        $select = $this->_db->select();
+        $select->from('question_content as qc',array('qc.subject','qc.created_at'));
+        $select->joinLeft('question as q', 'q.id = qc.question_id', array('q.token','q.answers','q.pageviews'));
+        $select->where('MATCH (qc.subject,qc.content,qc.keywords) AGAINST (?)', $words);
+        $select->where('q.token <> ?',$ignore);
+        $select->limit(intval($limit));
+        return $this->_db->fetchAll($select);        
+    }
+    
+	public function getByUserId($userId,$ignore,$limit)
+	{
+		$userId = intval($userId);
+		$limit  = intval($limit);
+		
+		$select = $this->_db->select();
+		$select->from('question as q', array('q.token','q.answers','q.pageviews','q.created_at'));
+		$select->joinLeft('question_content as qc', 'qc.question_id = q.id','qc.subject');
+        $select->where('q.user_id = ?', $userId);
+        if (isset($ignore)) {
+            $select->where('q.token <> ?',$ignore);
+        }
+		$select->order('q.created_at desc');
+		$select->limit($limit);
+		
+		return $this->_db->fetchAll($select);
+	}
+	
     /**
      * 取问题资料by ID
      *

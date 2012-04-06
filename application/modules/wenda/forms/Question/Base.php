@@ -29,8 +29,9 @@ class Wenda_Form_Question_Base extends RFLib_Form_Abstract
         $this->addElement('text','tag1',array(
             'filters'       => array('StringTrim'),
             'validators'    => array(
-                array('StringLength',true,array(2,50)),
-                array('Alnum'),
+                array('StringLength',true,array(2,20)),
+                array('Regex', false, array('pattern' => '/^((?! {1,}).)+$/'))
+
             ),
             'required'      => false,
             'label'         => '标签1'
@@ -39,8 +40,8 @@ class Wenda_Form_Question_Base extends RFLib_Form_Abstract
         $this->addElement('text','tag2',array(
             'filters'       => array('StringTrim'),
             'validators'    => array(
-                array('StringLength',true,array(2,50)),
-                array('Alnum'),
+                array('StringLength',true,array(2,20)),
+                array('Regex', false, array('pattern' => '/^((?! {1,}).)+$/'))
             ),
             'required'      => false,
             'label'         => '标签2'
@@ -49,8 +50,8 @@ class Wenda_Form_Question_Base extends RFLib_Form_Abstract
         $this->addElement('text','tag3',array(
             'filters'       => array('StringTrim'),
             'validators'    => array(
-                array('StringLength',true,array(2,50)),
-                array('Alnum'),
+                array('StringLength',true,array(2,20)),
+                array('Regex', false, array('pattern' => '/^((?! {1,}).)+$/'))
             ),
             'required'      => false,
             'label'         => '标签3'
@@ -59,8 +60,8 @@ class Wenda_Form_Question_Base extends RFLib_Form_Abstract
         $this->addElement('text','tag4',array(
             'filters'       => array('StringTrim'),
             'validators'    => array(
-                array('StringLength',true,array(2,50)),
-                array('Alnum'),
+                array('StringLength',true,array(2,20)),
+                array('Regex', false, array('pattern' => '/^((?! {1,}).)+$/'))
             ),
             'required'      => false,
             'label'         => '标签4'
@@ -69,8 +70,8 @@ class Wenda_Form_Question_Base extends RFLib_Form_Abstract
         $this->addElement('text','tag5',array(
             'filters'       => array('StringTrim'),
             'validators'    => array(
-                array('StringLength',true,array(2,50)),
-                array('Alnum'),
+                array('StringLength',true,array(2,20)),
+                array('Regex', false, array('pattern' => '/^((?! {1,}).)+$/'))
             ),
             'required'      => false,
             'label'         => '标签5'

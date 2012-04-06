@@ -1,6 +1,6 @@
 <?php
 
-class Wenda_CustomerController extends RFLib_Controller_Action
+class Wenda_CustomerController extends Zend_Controller_Action
 {
 
     protected $_model;

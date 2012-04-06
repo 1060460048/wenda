@@ -13,7 +13,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $this->bootstrap('frontController');
         $router = $this->frontController->getRouter();
-    
+
         //catalog route
         $route = new Zend_Controller_Router_Route_Regex(
             'index/catalog-(\d+)-(.+)\.html',
