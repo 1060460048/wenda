@@ -91,5 +91,4 @@ $(document).ready(function() {
                       'link', 'unlink',	'emoticons', 'code', 'image', 'flash', 'quote', '|',
                       'selectall', 'source', 'about' ]
 	});
-    
 });

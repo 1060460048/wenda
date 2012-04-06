@@ -59,7 +59,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 'id' => '[0-9]+'
             )
         );
-        $router->addRoute('userHome', $route);		
+        $router->addRoute('userHome', $route);	
+        
+        // question tag
+        $route = new Zend_Controller_Router_Route(
+            'question/tag/:tagname',
+            array(
+                'action'        => 'index',
+                'controller'    => 'question',
+                'module'        => 'wenda',            
+            )
+        );
+
+        $router->addRoute('tagQuestion', $route);
     }
     
     protected function _initInstalled()

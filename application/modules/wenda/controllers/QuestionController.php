@@ -173,4 +173,12 @@ class Wenda_QuestionController extends Zend_Controller_Action
         }
         return $errors;
     }
+    
+    public function indexAction()
+    {   
+        $tag = $this->_getParam('tagname');
+        $this->view->tagname = $tag;
+        $this->view->questionTab = $this->_getParam('show','unsolve');
+        $this->view->questions = RFLib_Core::getModel('Question')->getAllByKeywords($tag,1,50);
+    }
 }

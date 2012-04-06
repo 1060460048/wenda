@@ -13,7 +13,7 @@ class Wenda_View_Helper_Showtags extends Zend_View_Helper_Abstract
         }
 
         foreach ($tags as $tag) {
-            echo $this->view->linkTo($tag, 'question/index?tag=' . $tag, 'class=tag') . '&nbsp;';
+            echo $this->view->linkTo($tag, '@tagQuestion?tagname=' . $tag, 'class=tag') . '&nbsp;';
         }
     }
 }

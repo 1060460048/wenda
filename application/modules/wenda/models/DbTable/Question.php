@@ -40,9 +40,27 @@ class Wenda_Model_DbTable_Question extends RFLib_Model_DbTable_Abstract
         $select->from('question_content as qc',array('qc.subject','qc.created_at'));
         $select->joinLeft('question as q', 'q.id = qc.question_id', array('q.token','q.answers','q.pageviews'));
         $select->where('MATCH (qc.subject,qc.content,qc.keywords) AGAINST (?)', $words);
-        $select->where('q.token <> ?',$ignore);
+        if (isset($ignore)) {
+            $select->where('q.token <> ?',$ignore);
+        }
         $select->limit(intval($limit));
         return $this->_db->fetchAll($select);        
+    }
+    
+    public function getAllByKeywords($keywords, $page=1,$limit=50)
+    {
+        $words = '';
+        if (is_array($keywords)){
+            $words = implode(' ',$keywords);
+        }
+        if (is_string($keywords)){
+            $words = trim($keywords);
+        }
+        
+        $select = $this->_questionSQLSelect();
+        $select->where('MATCH (qc.subject,qc.content,qc.keywords) AGAINST (?)', $words);
+        $select->limit(intval($limit));
+        return $this->_db->fetchAll($select);           
     }
     
 	public function getByUserId($userId,$ignore,$limit)
@@ -86,7 +104,7 @@ class Wenda_Model_DbTable_Question extends RFLib_Model_DbTable_Abstract
      */
     public function findByToken($token)
     {
-        $select = $this->_questionSQLSelect();
+        $select = $this->_questionSQLSelect(null,true);
         $select->where('token = ?',$token);
         return $this->_db->fetchRow($select);
     }
@@ -215,13 +233,18 @@ class Wenda_Model_DbTable_Question extends RFLib_Model_DbTable_Abstract
         return $str;
     }
     
-    private function _questionSQLSelect($categoryId=null)
+    private function _questionSQLSelect($categoryId=null,$needContent=false)
     {
         $select = $this->_db->select();
         $select->from('question as q','*');
-        $select->joinLeft('question_content as qc', 'qc.question_id = q.id','*');
+        if ($needContent) {
+            $select->joinLeft('question_content as qc', 'qc.question_id = q.id','*');
+        } else {
+            $select->joinLeft('question_content as qc', 'qc.question_id = q.id',array('qc.subject','qc.keywords'));
+        }
         $select->joinleft('user as u','u.id = q.user_id',array('u.name as user_name','u.logo as user_logo'));
         $select->joinleft('user as u2','u2.id = q.last_answer_user_id', array('u2.name as last_answer_user_name'));
+        $select->where('q.status = "A"');
         if (null !== $categoryId) {
             $select->where('q.category_id = ?', intval($categoryId));
         }

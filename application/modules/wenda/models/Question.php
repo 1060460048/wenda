@@ -11,7 +11,6 @@ class Wenda_Model_Question extends RFLib_Model_Abstract
         return $this->getTable('Question')->getShortDataById($id);
     }
 
-
     /**
      * 取问题的详细资料
      * 
@@ -29,15 +28,41 @@ class Wenda_Model_Question extends RFLib_Model_Abstract
     
 	/**
 	* 取用户最近的发表的问题
+    *
+    * @param int $userId
+    * @param string $ignore need ignore question
+    * @param int $limit
+    * @return array | null
 	*/
 	public function getByUserId($userId, $ignore=null, $limit=20)
 	{
 		return $this->getTable('Question')->getByUserId($userId, $ignore, $limit);
 	}
-	
+    
+	/**
+	* 取相关关健字的问题
+    *
+    * @param int $userId
+    * @param string $ignore need ignore question
+    * @param int $limit
+    * @return array | null
+	*/	
     public function getByKeywords($keywords,$ignore=null,$limit=10)
     {
         return $this->getTable('Question')->getByKeywords($keywords,$ignore,$limit);
+    }
+    
+	/**
+	* 取相关关健字的问题带分页
+    *
+    * @param int $userId
+    * @param string $ignore need ignore question
+    * @param int $limit
+    * @return array | null
+	*/	    
+    public function getAllByKeywords($keywords, $page=1,$limit=50)
+    {
+        return $this->getTable('Question')->getAllByKeywords($keywords, $page, $limit);
     }
     
     /**
@@ -71,6 +96,11 @@ class Wenda_Model_Question extends RFLib_Model_Abstract
         return $this->getTable('Question')->zeros($categoryId,$paged,$limit);
     }    
 
+    /**
+    * 设置问题总共有多少回复
+    * @param int $questionId
+    * @return boolean
+    */
     public function setAnswers($questionId)
     {
         $auth = RFLib_Core::getService('authentication')->getAuth();

@@ -2,37 +2,7 @@
 class Wenda_IndexController extends Zend_Controller_Action
 {
     const PAGE_ROWS = 10;
-public function init()
-{
-         $frontendOptions = array(
-         'lifetime' => 3600, // 缓存寿命
-         'debug_header' => true, // true是打开debug，通常设为false
 
-         'regexps' => array(
-                        '^/$' => array('cache' => true), // 所有页面都缓存
-                        '^/category/menu' => array('cache' => false), //仅缓存所需页面
-                     ),
-
-         'default_options' => array(
-            'cache_with_get_variables' => true,
-            'cache_with_post_variables' => true,
-            'make_id_with_cookie_variables' => true, // 注意如果开了session要把这个打开
-            'cache_with_session_variables' => true, // 注意如果开了session要把这个打开
-            'cache_with_files_variables' => true,
-            'cache_with_cookie_variables' => true, // 注意如果开了session要把这个打开
-         )
-       );
-
-      $backendOptions = array(
-         'cache_dir' => VAR_PATH . '/cache/', // 缓存存放路径，必须存在并可写
-      );
-
-      $cache = Zend_Cache::factory('Page', 
-                                 'File', 
-                                 $frontendOptions, 
-                                 $backendOptions);
-      $cache->start(); // 开始缓存
-}    
     public function indexAction()
     {
         $categories = RFLib_Core::getModel('Category')->getCached('rootcategory')->getRoot();
@@ -58,7 +28,7 @@ public function init()
         }
         $this->view->selCatId    = $categoryId;
         $this->view->questionTab = $show;
-        $this->view->hotKeywords = RFLib_Core::getModel('Keyword')->getCached($categoryId . 'keyword')->getHots($categoryId);
+        $this->view->hotKeywords = RFLib_Core::getModel('Keyword')->getCached($categoryId . 'keyword')->getHots($categoryId,50);
         $this->view->topUsers    = RFLib_Core::getModel('User')->getCached($categoryId . 'topusers')->getTopUsers($categoryId,50);
     }
 }

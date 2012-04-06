@@ -23,7 +23,7 @@
  * @copyright  Copyright (c) 2010 Ricky Feng (ricky.feng@163.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
+ 
 // Check PHP version
 if (version_compare(phpversion(), '5.2', '<')) {
     die('ERROR: Your PHP version is ' . phpversion() . '. Wenda requires PHP 5.2.0 or newer.');
