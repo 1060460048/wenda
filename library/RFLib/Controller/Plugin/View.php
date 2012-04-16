@@ -53,9 +53,6 @@ class RFLib_Controller_Plugin_View extends Zend_Controller_Plugin_Abstract
         //view some assign variables
         $view->assign('siteName', $view->title);
         $view->assign('skinUrl', $view->baseUrl() . '/skin/' . $moduleName . '/' . $template);
-        
-        // set css links and a special import for the accessibility styles
-        $view->addStylesheet('main.css');  
     }
 }
 ?>

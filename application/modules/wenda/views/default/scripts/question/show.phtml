@@ -1,5 +1,5 @@
-<?php echo $this->headLink()->appendStylesheet($this->baseUrl() . '/js/fancybox/jquery.fancybox-1.3.4.css'); ?>
-<?php $this->addJavascript('fancybox/jquery.fancybox-1.3.4.pack.js','first'); ?>
+<?php $this->headLink()->appendStylesheet($this->baseUrl() . '/js/fancybox/jquery.fancybox-1.3.4.css') ?>
+<?php $this->addJavascript('fancybox/jquery.fancybox-1.3.4.pack.js'); ?>
 <?php $this->addJavascript('wenda/qcontent.js');?>
 <div class="col2-layout">
 	<div class="col-left path-info"><?php echo $this->breadcrumb($this->substr($this->question['subject'],30)); ?></div>
