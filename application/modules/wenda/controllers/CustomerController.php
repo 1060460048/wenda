@@ -17,7 +17,7 @@ class Wenda_CustomerController extends Zend_Controller_Action
 
     public function registerAction()
     {
-
+		$this->view->headTitle()->prepend('注册');
     }
 
     public function registrationAction()
@@ -51,7 +51,7 @@ class Wenda_CustomerController extends Zend_Controller_Action
 
     public function loginAction()
     {
-
+		$this->view->headTitle()->prepend('登录');
     }
 
     public function authenticateAction()

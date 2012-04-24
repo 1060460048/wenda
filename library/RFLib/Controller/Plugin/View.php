@@ -48,7 +48,7 @@ class RFLib_Controller_Plugin_View extends Zend_Controller_Plugin_Abstract
         $view->headTitle()->setSeparator(' - ');
 
         // setting the site in the title
-        $view->headTitle($view->title, 'PREPEND');
+        $view->headTitle($view->title);
 
         //view some assign variables
         $view->assign('siteName', $view->title);

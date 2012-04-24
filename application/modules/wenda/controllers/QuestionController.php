@@ -42,7 +42,8 @@ class Wenda_QuestionController extends Zend_Controller_Action
         $messages = $this->_flashMessenger->getMessages();
         $this->view->errorMsg = isset($messages[0]) ? $messages[0] : null;
         $this->view->postData = isset($messages[1]) ? $messages[1] : null;
-
+		
+		$this->view->headTitle()->prepend($qDetail['subject']);
     }
 
     public function createAction()
@@ -51,7 +52,7 @@ class Wenda_QuestionController extends Zend_Controller_Action
         
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $postData = $request->getPost();
+            $postData = $this->_escapeData($request->getPost());
             $form = RFLib_Core::getForm('questionCreate');
             if (!$form->isValid($postData)) {
                 $this->view->errorMsg = $this->_getFormErrors($form);
@@ -80,6 +81,7 @@ class Wenda_QuestionController extends Zend_Controller_Action
             $this->view->bread = RFlib_Core::getModel('Category')->getParents($categoryId);
         }
         $this->view->selCatId = $categoryId;
+    	$this->view->headTitle()->prepend('我要提问');		
     }
 
     public function askedAction()
@@ -103,7 +105,7 @@ class Wenda_QuestionController extends Zend_Controller_Action
         //when user answer question and submit form
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $postData = $request->getPost();
+            $postData = $this->_escapeData($request->getPost());
             $form = RFLib_Core::getForm('questionAnswer');
             if (!$form->isValid($postData)) {
                 $this->_flashMessenger->addMessage($this->_getFormErrors($form));
@@ -134,7 +136,7 @@ class Wenda_QuestionController extends Zend_Controller_Action
     {
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $postData = $request->getPost();
+            $postData = $this->_escapeData($request->getPost());            
             $form = RFLib_Core::getForm('questionReply');
             if ($form->isValid($postData)) {
                 $answerModel = RFLib_Core::getModel('Answer');
@@ -181,4 +183,22 @@ class Wenda_QuestionController extends Zend_Controller_Action
         $this->view->questionTab = $this->_getParam('show','unsolve');
         $this->view->questions = RFLib_Core::getModel('Question')->getAllByKeywords($tag,1,50);
     }
+    
+    protected function _escapeData($data)
+    {
+        if (! is_array($data)) {
+            return htmlentities($data);
+        }
+        
+        $arr = array();
+        foreach ($data as $key=>$value) {
+            if (is_array($value)) {
+                $arr[$key] = $this->_escapeData($value);
+            } else {
+                $arr[$key] = htmlentities($value);
+            } 
+        }
+        return $arr;
+    }
+    
 }
