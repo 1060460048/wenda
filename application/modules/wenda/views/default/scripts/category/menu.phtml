@@ -1,12 +1,13 @@
+<?php if ($this->showCatTab) :?>
 <ul>
-    <?php if ($this->showCatTab) :?>
         <?php foreach ($this->categories as $category) : ?>
             <li class="<?php echo ((isset($this->selCatId) && $this->selCatId == $category['id']) ? 'sel': '') ; ?>" >
                 <?php echo $this->linkTo($category['title'], '@catalogQuestion?catalog=' . $category['id'].'&show=unsolve') ?>
             </li>
         <?php endforeach; ?>
-    <?php endif; ?>    
+   
     <li class="<?php echo (true == $this->selAsk ? 'put sel' : 'put')?>">
         <?php echo $this->linkTo('我要提问', 'question/create?fmcatalog='.$this->selCatId) ?>
 	</li>
 </ul>
+    <?php endif; ?> 
