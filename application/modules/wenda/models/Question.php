@@ -26,6 +26,19 @@ class Wenda_Model_Question extends RFLib_Model_Abstract
         }
     }
     
+    /**
+     * 通过用户输入的查询条件查找所有问题
+     * 
+     * @param string $query
+     * @param int $page
+     * @param int $limit
+     * @return array | null
+     */
+    public function getBySearchQuery($query,$page,$limit=10)
+    {
+        return $this->getTable('Question')->getBySearchQuery($query,$page,$limit);
+    }
+    
 	/**
 	* 取用户最近的发表的问题
     *

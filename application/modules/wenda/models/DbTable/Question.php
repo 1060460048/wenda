@@ -39,14 +39,14 @@ class Wenda_Model_DbTable_Question extends RFLib_Model_DbTable_Abstract
         $select = $this->_db->select();
         $select->from('question_content as qc',array('qc.subject','qc.created_at'));
         $select->joinLeft('question as q', 'q.id = qc.question_id', array('q.token','q.answers','q.pageviews'));
-        $select->where('MATCH (qc.subject,qc.content,qc.keywords) AGAINST (?)', $words);
+        $select->where('MATCH (qc.keywords) AGAINST (?)', $words);
         if (isset($ignore)) {
             $select->where('q.token <> ?',$ignore);
         }
         $select->limit(intval($limit));
         return $this->_db->fetchAll($select);        
     }
-    
+ 
     public function getAllByKeywords($keywords, $page=1,$limit=50)
     {
         $words = '';
@@ -58,7 +58,7 @@ class Wenda_Model_DbTable_Question extends RFLib_Model_DbTable_Abstract
         }
         
         $select = $this->_questionSQLSelect();
-        $select->where('MATCH (qc.subject,qc.content,qc.keywords) AGAINST (?)', $words);
+        $select->where('MATCH (qc.keywords) AGAINST (?)', $words);
         $select->limit(intval($limit));
         return $this->_db->fetchAll($select);           
     }
@@ -80,7 +80,47 @@ class Wenda_Model_DbTable_Question extends RFLib_Model_DbTable_Abstract
 		
 		return $this->_db->fetchAll($select);
 	}
-	
+    
+    /**
+     * 取问题资料通过用户输入的查询条件
+     *
+     * @param string $query
+     * @param int $paged
+     * @return array | null
+     */
+    public function getBySearchQuery($query,$paged=1,$limit=10)  
+    {
+        $words = explode(' ',$query);
+        $select = $this->_questionSQLSelect(null, true);
+        $sql = '';
+        for($i=0;$i<count($words); $i++) {
+            $sql .= "qc.subject like '%{$words[$i]}%'";
+            $sql .= ($i + 1 < count($words)) ? ' or ' : '';
+        }
+        for($i=0;$i<count($words); $i++) {
+            $sql .= " or qc.keywords like '%{$words[$i]}%'";
+        }
+        $select->where($sql);
+        $select->limit(intval($limit));
+        
+        // if (null !== $paged) {
+            // $adapter = new Zend_Paginator_Adapter_DbSelect($select);
+            // $count = clone $select;
+            // $count->reset(Zend_Db_Select::COLUMNS);
+            // $count->reset(Zend_Db_Select::FROM);
+            // $count->from('Question as q', new Zend_Db_Expr('COUNT(*) AS `zend_paginator_row_count`'));
+            // $adapter->setRowCount($count);
+//             
+            // $paginator = new Zend_Paginator($adapter);
+            // $paginator->setItemCountPerPage($limit)
+                      // ->setCurrentPageNumber((int) $paged);
+            // return $paginator;
+        // }            
+        
+        
+        return $this->_db->fetchAll($select);
+    }
+    
     /**
      * 取问题资料by ID
      *

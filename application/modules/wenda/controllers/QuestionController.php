@@ -73,13 +73,10 @@ class Wenda_QuestionController extends Zend_Controller_Action
             }
             $categoryId = $postData['category_id'];
         } else {
-            $default = (isset($this->view->categories[0])) ?  $this->view->categories[0] : null;
+            $default = (isset($this->view->categories[0])) ?  $this->view->categories[0]['id'] : null;
             $categoryId = $request->getParam('fmcatalog',$default);            
         }
 
-        if (null !== $categoryId) {
-            $this->view->bread = RFlib_Core::getModel('Category')->getParents($categoryId);
-        }
         $this->view->selCatId = $categoryId;
     	$this->view->headTitle()->prepend('我要提问');		
     }

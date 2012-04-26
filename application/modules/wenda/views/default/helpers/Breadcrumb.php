@@ -24,15 +24,12 @@ class Wenda_View_Helper_Breadcrumb extends Zend_View_Helper_Abstract
                                 $category['title'], 
                                 '@catalogQuestion?catalog=' . $category['id'].'&show=unsolve');
             }
-            
-            if (null !== $product) {
-                $crumbs[] = $this->view->Escape($product);
-            }
-            
-            return '当前位置：' . join(' &raquo; ', $crumbs);
         } else {
-            return '当前位置：' . $this->view->linkTo($this->view->siteName, 'homepage');
+            $crumbs[] = $this->view->linkTo($this->view->siteName, 'homepage');
         }
-        
+        if (null !== $product) {
+            $crumbs[] = $this->view->Escape($product);
+        }            
+        return '当前位置：' . join(' &raquo; ', $crumbs);
     }    
 }

@@ -1,6 +1,4 @@
-﻿@import "reset.css";
-
-/*全局*/
+﻿/*全局*/
 body{font-size:12px; text-align:left; font-family:font-family:Verdana,sans-serif,宋体; background:#FFF;}
 a {color:#4466BB;text-decoration:none;}
 a:hover {color:#00A;}
@@ -23,6 +21,7 @@ a.user:hover img{border:1px solid #40AA53;}
 .error ul li , .error-msg ul li {line-height:18px; }
 .poperror-msg {margin:0 0 10px 0;}
 .popsuccess-msg {margin:0 0 10px 0;font-size:12pt;	color:#40AA53;	padding:50px 0;	text-align:center;font-wight:bold;}
+.highlight{color: #a00; padding: 0 1px; margin:0 2px;}
 
 /* popup form*/
 #ajaxbox {text-align:left;}
@@ -226,7 +225,7 @@ a.rndbutton span {background:url('../images/btn.gif') right 0; color:#fff;float:
 a.rndbutton:hover span {background-position: right -30px;	color:#f60;}
 
 /*查找结果*/
-#search-sort {margin:20px 0 5px 8px;color:#666}
+#search-sort {margin:20px 0 5px 0;color:#666}
 #search-sort .sort-method {background:none;margin-left:20px;}
 #search-sort .sort-method a {font-weight:bold;}
 #search-sort .sort-method a.sel {text-decoration:none;color:#300;}
@@ -234,10 +233,10 @@ a.rndbutton:hover span {background-position: right -30px;	color:#f60;}
 .heading-tabs span {background:#ddd;margin-left:8px;padding:4px 10px;float:left;}
 .heading-tabs span.active {background:none;border:1px solid #ccc;border-bottom:1px solid #f9f9f9;font-weight:bold;color:#666;}
 .heading-tabs span a {text-decoration:none;}
-.search-results dl {padding:5px 0 15px 10px;margin:8px 0; border-bottom:1px solid #ccc;}
+.search-results dl {padding:5px 0 15px 10px; margin:8px 0; border-bottom:1px solid #ccc;}
 .search-results dl dt {width:75px;}
-.search-results dl dd {float:right; width:605px;}
-.search-results dl dd p {color: #666; margin: 5px 3px 3px 3px;line-height:20px;}
-.search-results dl dd h4 {font-size:14px;}
+.search-results dl dd {float:right; width:615px;}
+.search-results dl dd p {color: #666; margin: 5px 3px 3px 3px; line-height:16px;}
+.search-results dl dd h4 {font-size:14px; line-height:18px;}
 .search-results dl dd h4 .stat {float:right;color: #666;font-size: 9pt;margin-left: 10px;font-weight: normal;}
 

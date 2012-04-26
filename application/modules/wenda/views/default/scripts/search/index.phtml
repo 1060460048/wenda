@@ -1,9 +1,6 @@
-<?php echo $this->breadcrumb(); ?>
+<div class="path-info"><?php echo $this->breadcrumb('搜索结果'); ?></div>
 <div id="search-sort" class="heading-tabs">
-	<span class="active"><a href="?scope=bbs&amp;q=php">讨论区</a></span>
-	<span><a href="/code/search?q=php">代码分享</a></span>
-	<span><a href="?scope=blog&amp;q=php">博客</a></span>
-	<span><a href="?scope=news&amp;q=php">资讯</a></span>
+	<span class="active"><a href="#">讨论区</a></span>
 	<span class="sort-method">
 		按 <a class="sel" href="?scope=bbs&amp;q=php&amp;lang=0">默认</a> |
     	<a href="?scope=bbs&amp;q=php&amp;lang=0&amp;sort=time">时间</a>
@@ -13,38 +10,20 @@
 <div class="col2-layout">
 	<div class="col-left">
 		<div class="search-results">
+		    <?php foreach ($this->results as $row) :?>
 			<dl>
-				<dd>
-					<h4>
-						<a class="thread" title="php" target="_blank" href="http://www.oschina.net/question/73700_10439"><span class="highlight">php</span></a>
-						<span class="stat">（六翼 更新于7个月前，2回/261阅）</span>
+				<dd><h4><?php echo $this->linkTo($this->substr($row['subject'],50), '@showQuestion?token='.$row['token'], 'target=_blank class=thread') ?>
+						<span class="stat">(<?php echo $row['user_name'] . ' 更新于 ' . $this->timing($row['created_at'])?>)</span>
 					</h4>
 					<p class="detail">
-						<span class="highlight">php</span>Fatal error: Call to undefined DisplayError() in C:\Documents and Settings <a target="_blank" href="http://www.oschina.net/question/73700_10439">查看全文</a>
+					    <?php echo $this->substr($row['content'],120) ?>
+					    <?php echo $this->linkTo('查看全文', '@showQuestion?token='.$row['token'], 'target=_blank')?>
 					</p>			
 				</dd>
-				<dt>
-					<a target="_blank" href="http://my.oschina.net/dengyue" class="user">
-						<img align="absmiddle" user="73700" title="六翼" alt="六翼" src="http://static.oschina.net/uploads/user/36/73700_50.jpg"/>
-					</a>
-				</dt>					
+				<dt><?php echo $this->face($row['user_logo'],$row['user_id']); ?></dt>
+				<div class="clearfix"></div>				    
 			</dl>
-			<dl>
-				<dd>
-					<h4>
-						<a class="thread" title="php" target="_blank" href="http://www.oschina.net/question/73700_10439"><span class="highlight">php</span></a>
-						<span class="stat">（六翼 更新于7个月前，2回/261阅）</span>
-					</h4>
-					<p class="detail">
-						<span class="highlight">php</span>公司收购了一网站，网站是php开发的，我被调配过去了，也就是说以后可能很少机会基础java了，要搞php了， 之前没接触过php, 不知是福是祸。<a target="_blank" href="http://www.oschina.net/question/73700_10439">查看全文</a>
-					</p>			
-				</dd>
-				<dt>
-					<a target="_blank" href="http://my.oschina.net/dengyue" class="user">
-						<img align="absmiddle" user="73700" title="六翼" alt="六翼" src="http://static.oschina.net/uploads/user/36/73700_50.jpg"/>
-					</a>
-				</dt>					
-			</dl>			
+			<?php endforeach; ?>
 		</div>		
 	</div>
 	<div class="col-right">

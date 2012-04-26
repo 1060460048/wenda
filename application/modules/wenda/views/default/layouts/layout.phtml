@@ -2,6 +2,7 @@
 
 <html xml:lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
 <head>
+    <?php  $this->addStylesheet('reset.css');  ?>
     <?php  $this->addStylesheet('main.css');  ?>
 	<?php echo $this->headMeta() ?>
 	<?php echo $this->headTitle() ?>
@@ -15,7 +16,8 @@
 		<?php echo $this->layout()->content;?>
 		<?php echo $this->render('_footer.phtml')?>
 	</div>
-	<?php $this->addJavascript('jquery/jquery-1.5.2.min.js','first') ?>	            
+	<?php $this->addJavascript('jquery/jquery-1.5.2.min.js','first') ?>
+	<?php $this->addJavascript('wenda/common.js') ?>		            
     <?php echo $this->headScript(); ?>    
 </body>
 </html>
