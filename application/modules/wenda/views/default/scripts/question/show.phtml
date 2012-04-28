@@ -13,7 +13,7 @@
 		    <?php echo $this->face($this->question['user_logo'],$this->question['user_id']) ?>
 		</div>
 		<div class="qtitle">
-            <h1><?php echo $this->question['subject'] ?></h1>
+            <h1><?php echo $this->escape($this->question['subject']) ?></h1>
 			<div class="stat">
 			    <?php echo $this->linkTo($this->question['user_name'],'@userHome?id='.$this->question['user_id'], 'target=_blank')?>
 				发表于 <?php echo date('m-d h:i',$this->question['created_at']) . '&nbsp;&nbsp;'.$this->timing($this->question['created_at'])?>
@@ -122,7 +122,7 @@
 			<ul>
 				<?php foreach($this->askedQuestions as $question) :?>
                     <li>
-                        <?php echo $this->linkTo($question['subject'], '@showQuestion?token='.$question['token'], 'target=_blank') ?>
+                        <?php echo $this->linkTo($this->escape($question['subject']), '@showQuestion?token='.$question['token'], 'target=_blank') ?>
                         <span class="date"><?php printf('(%d回/%d阅,%s)',$question['answers'],$question['pageviews'],$this->timing($question['created_at']))?></span>
                     </li>
                 <?php endforeach ?>
@@ -135,7 +135,7 @@
 			<ul>
                 <?php foreach($this->otherQuestions as $question) : ?>
                     <li>
-                        <?php echo $this->linkTo($question['subject'], '@showQuestion?token='.$question['token'], 'target=_blank') ?>
+                        <?php echo $this->linkTo($this->escape($question['subject']), '@showQuestion?token='.$question['token'], 'target=_blank') ?>
                         <span class="date"><?php printf('(%d回/%d阅,%s)',$question['answers'],$question['pageviews'],$this->timing($question['created_at']))?></span>
                     </li>
                 <?php endforeach; ?>

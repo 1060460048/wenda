@@ -4,7 +4,7 @@
 	<div class="clearfix"></div>
 </div>
 <div class="asked-tip">
-    <h1><em>“<?php echo $this->question['subject'] ?>”</em>提交成功！</h1>
+    <h1><em>“<?php echo $this->escape($this->question['subject']) ?>”</em>提交成功！</h1>
     <div class="text">提问和发帖注意事项：
         <ul>
             <li>必须在1个小时内而且没人回复的情况下才能修改和删除问题</li>

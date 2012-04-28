@@ -52,7 +52,7 @@ class Wenda_QuestionController extends Zend_Controller_Action
         
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $postData = $this->_escapeData($request->getPost());
+            $postData = $request->getPost();
             $form = RFLib_Core::getForm('questionCreate');
             if (!$form->isValid($postData)) {
                 $this->view->errorMsg = $this->_getFormErrors($form);
@@ -102,7 +102,7 @@ class Wenda_QuestionController extends Zend_Controller_Action
         //when user answer question and submit form
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $postData = $this->_escapeData($request->getPost());
+            $postData = $request->getPost();
             $form = RFLib_Core::getForm('questionAnswer');
             if (!$form->isValid($postData)) {
                 $this->_flashMessenger->addMessage($this->_getFormErrors($form));
@@ -133,7 +133,7 @@ class Wenda_QuestionController extends Zend_Controller_Action
     {
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $postData = $this->_escapeData($request->getPost());            
+            $postData = $request->getPost();            
             $form = RFLib_Core::getForm('questionReply');
             if ($form->isValid($postData)) {
                 $answerModel = RFLib_Core::getModel('Answer');
@@ -180,22 +180,4 @@ class Wenda_QuestionController extends Zend_Controller_Action
         $this->view->questionTab = $this->_getParam('show','unsolve');
         $this->view->questions = RFLib_Core::getModel('Question')->getAllByKeywords($tag,1,50);
     }
-    
-    protected function _escapeData($data)
-    {
-        if (! is_array($data)) {
-            return htmlentities($data);
-        }
-        
-        $arr = array();
-        foreach ($data as $key=>$value) {
-            if (is_array($value)) {
-                $arr[$key] = $this->_escapeData($value);
-            } else {
-                $arr[$key] = htmlentities($value);
-            } 
-        }
-        return $arr;
-    }
-    
 }
