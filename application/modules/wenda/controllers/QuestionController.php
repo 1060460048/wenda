@@ -128,12 +128,35 @@ class Wenda_QuestionController extends Zend_Controller_Action
             );
             return $redirector->gotoRoute($goto['urlOptions'], $goto['route']);
         } else {
-            $qToken = $request->getParam('question');
-            $qAnswer = $request->getParam('answer');
-            Zend_Debug::dump($qToken);
-        }
+			$token = $request->getParam('question');
+            $answerId = $request->getParam('answer');
+			$this->view->answer = RFLib_Core::getModel('Answer')->getRefanswerById($answerId);
+			$this->view->token = $token;
+		}
     }
 
+	public function refanswerAction()
+	{
+		$request = $this->getRequest();
+		if ($request->isPost()) {
+            $postData = $request->getPost();
+            
+            Zend_Debug::dump($postData);
+            die();
+	        $redirector = $this->_helper->getHelper('Redirector');
+            $goto = array(
+                'urlOptions' => array(
+                    'controller' => 'question',
+                    'action' => 'show',
+                    'token' => $postData['token']
+                ),
+                'route' => 'showQuestion'
+            );
+            return $redirector->gotoRoute($goto['urlOptions'], $goto['route']);	
+		}
+        $this->_redirect('index');
+	}
+	
     public function replyAction()
     {
         $request = $this->getRequest();

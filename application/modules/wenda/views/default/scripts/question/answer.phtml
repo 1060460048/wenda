@@ -2,14 +2,15 @@
     <div class="col-left">
         <div>当前位置</div>
         <div id="answer">
-            <p>引用“<?php echo $this->answer['userName']?>”的答案：</p>
-            <div class="rf-content"><?php echo $this->answer['content']?>fadsfsad</div>            
+            <p>引用“<?php echo $this->answer['user_name']?>”的答案：</p>
+            <div class="rf-content"><?php echo $this->stripScript($this->answer['content'])?></div>            
             <p>请输入你的答案内容：</p>
-			<form method="post" action="answer" id="answer_form">
-			    <input type="hidden" value="<?php echo $this->question['token']?>" id="token" name="token" />
+			<form method="post" action="/question/refanswer" id="answer_form">
+			    <input type="hidden" value="<?php echo $this->answer['id']?>" id="ref_id" name="ref_id" />
+                <input type="hidden" value="<?php echo $this->token;?>" id="token" name="token" />
 				<textarea id="content" name="content" class="content"><?php echo $this->postData['content']?></textarea><br />
 				<input type="submit" value="提交答案" class="submit" />
-				<?php echo $this->linkTo("返回话题 »",'@showQuestion?token=' . $question['token']);?>
+				<?php echo $this->linkTo("返回话题 »",'@showQuestion?token=' . $this->token);?>
             </form>
         </div>
     </div>

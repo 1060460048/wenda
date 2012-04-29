@@ -25,6 +25,16 @@ class Wenda_Model_DbTable_Answer extends RFLib_Model_DbTable_Abstract
         }
     }
     
+	public function getRefanswerById($id)
+	{
+		$select = $this->_db->select();
+		$select->from('Answer as a',array('a.id','a.content'));
+		$select->joinLeft('user as u', 'u.id=a.user_id',array('name as user_name'));
+		$select->where('a.id = ?',intval($id));
+		$select->where('a.status = "A"');
+		return $this->_db->fetchRow($select);
+	}
+	
     public function findAnswersByQuestionId($questionId,$page=null,$limit=10)
     {
         $select = $this->select();

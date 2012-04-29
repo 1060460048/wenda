@@ -20,6 +20,11 @@ class Wenda_Model_Answer extends RFLib_Model_Abstract
         return $this->getTable('Answer')->findAnswersByQuestionId($questionId, $page, $limit);
     }
 
+	public function getRefanswerById($id)
+	{
+		return $this->getTable('Answer')->getRefanswerById($id);
+	}
+	
     public function getAllByIds ($ids)
     {
         if (empty($ids)) {
