@@ -47,7 +47,7 @@ set_include_path(implode(PATH_SEPARATOR,
 
 // Set application mode
 require_once 'RFLib/Core.php';
-RFLib_Core::setIsDeveloperMode(true);
+RFLib_Core::setIsDeveloperMode(TRUE);
 
 /**
  * Zend_Application

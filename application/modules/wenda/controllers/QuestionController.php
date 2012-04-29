@@ -11,8 +11,13 @@ class Wenda_QuestionController extends Zend_Controller_Action
 
         //create flash manager
         $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
+		
+		$this->view->headLink()->appendStylesheet($this->view->baseUrl() . '/js/fancybox/jquery.fancybox-1.3.4.css');
+		$this->view->addJavascript('fancybox/jquery.fancybox-1.3.4.pack.js');
+		$this->view->addJavascript('wenda/qcontent.js');	
+			
     }
-
+    
     public function showAction()
     {
         $request = $this->getRequest();
@@ -107,12 +112,9 @@ class Wenda_QuestionController extends Zend_Controller_Action
             if (!$form->isValid($postData)) {
                 $this->_flashMessenger->addMessage($this->_getFormErrors($form));
                 $this->_flashMessenger->addMessage($postData);
-            } else {
-                $answerModel = RFLib_Core::getModel('Answer');
-                if (!$answerModel->create($postData,$form)) {
+            } elseif (! RFLib_Core::getModel('Answer')->create($postData,$form)) {
                     $this->_flashMessenger->addMessage(array('保存数据失败'));
                     $this->_flashMessenger->addMessage($postData);
-                }
             }
 
             $redirector = $this->_helper->getHelper('Redirector');
@@ -125,8 +127,11 @@ class Wenda_QuestionController extends Zend_Controller_Action
                 'route' => 'showQuestion'
             );
             return $redirector->gotoRoute($goto['urlOptions'], $goto['route']);
+        } else {
+            $qToken = $request->getParam('question');
+            $qAnswer = $request->getParam('answer');
+            Zend_Debug::dump($qToken);
         }
-        $this->_redirect('index');
     }
 
     public function replyAction()

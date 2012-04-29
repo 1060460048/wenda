@@ -1,6 +1,3 @@
-<?php $this->headLink()->appendStylesheet($this->baseUrl() . '/js/fancybox/jquery.fancybox-1.3.4.css') ?>
-<?php $this->addJavascript('fancybox/jquery.fancybox-1.3.4.pack.js'); ?>
-<?php $this->addJavascript('wenda/qcontent.js');?>
 <div class="col2-layout">
 	<div class="col-left path-info"><?php echo $this->breadcrumb($this->substr($this->question['subject'],30)); ?></div>
 	<div class="col-right"><?php echo $this->render('partial/_search.phtml');?></div>
@@ -76,7 +73,7 @@
                         </div>
 						<div class="votes">
 						    <a href="<?php printf("javascript:reply_to_post('%s')", $this->urlFor("ajax/reply?postid=" . $answer['id']) ) ?>">评论</a><em>(<?php echo isset($answer['replies']) ? count($answer['replies']) : 0 ;?>)</em> |
-					    	<a href="#">引用此答案</a>
+					    	<a href="<?php echo $this->urlFor('question/answer?question='.$this->question['token'].'&answer='.$answer['id']) ?>">引用此答案</a>
 					    </div>
 					</div>
 					<div class="clearfix"></div>

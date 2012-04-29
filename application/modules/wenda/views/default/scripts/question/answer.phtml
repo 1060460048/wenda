@@ -1,0 +1,19 @@
+<div class="col2-layout">
+    <div class="col-left">
+        <div>当前位置</div>
+        <div id="answer">
+            <p>引用“<?php echo $this->answer['userName']?>”的答案：</p>
+            <div class="rf-content"><?php echo $this->answer['content']?>fadsfsad</div>            
+            <p>请输入你的答案内容：</p>
+			<form method="post" action="answer" id="answer_form">
+			    <input type="hidden" value="<?php echo $this->question['token']?>" id="token" name="token" />
+				<textarea id="content" name="content" class="content"><?php echo $this->postData['content']?></textarea><br />
+				<input type="submit" value="提交答案" class="submit" />
+				<?php echo $this->linkTo("返回话题 »",'@showQuestion?token=' . $question['token']);?>
+            </form>
+        </div>
+    </div>
+    <div class="col-right">
+    ad
+    </div>
+</div>
