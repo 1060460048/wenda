@@ -32,6 +32,8 @@ return array(
     "'%value%' is not less than '%max%'" => "输入值必须小于 '%max%'",
     "'%value%' does not match against pattern '%pattern%'" => "'%value%' 不符合输入规则 '%pattern%'",
     "'%value%' is less than %min% characters long" => "'%value%' 字符长度小于 %min% 位",
-    "'%value%' is more than %max% characters long" => "'%value%' 字符长度超过 %max% 位"
+    "'%value%' is more than %max% characters long" => "'%value%' 字符长度超过 %max% 位",
+    'User name "%value%" already exists in our system' => "用户名'%value%'已被注册",
+    'Email "%value%" already exists in our system' => "邮箱地址'%value%'已被注册"
 );
 ?>
